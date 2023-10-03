@@ -1,2 +1,2 @@
 # RageFist
-game
+This is the RageFist game.
