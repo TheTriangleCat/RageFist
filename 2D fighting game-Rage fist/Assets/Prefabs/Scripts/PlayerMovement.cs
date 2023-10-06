@@ -11,8 +11,8 @@ public class movement : MonoBehaviour
     private PlayerInput playerControls;
 
     [Header("Walking")]
-    public float speed = 1f;
-    [SerializeField] float speedDivident = 100f;
+    public float playerSpeed = 1f;
+    //[SerializeField] float speedDivident = 100f;
 
     public Transform groundCheck;
     [SerializeField] float groundDistance = 0.4f;
@@ -50,17 +50,17 @@ public class movement : MonoBehaviour
     // Functions
     void MovementRightLeft()
     {
-
-
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(speed / speedDivident, 0f, 0f);
+            transform.Translate(playerSpeed / 100, 0f, 0f); // Divided by 100 so that we can keep the value of speed small
+            transform.rotation = Quaternion.Euler(0, 0, 0); // Flip player
             Debug.Log("going right");
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(-speed / speedDivident, 0f, 0f);
+            transform.Translate(playerSpeed / 100, 0f, 0f); // Divided by 100 so that we can keep the value of speed small
+            transform.rotation = Quaternion.Euler(0, 180, 0); // Flip player
             Debug.Log("going left");
         }
     }
