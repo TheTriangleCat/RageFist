@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class movement : MonoBehaviour
 {
+    [Header("Testing stuff (deleat after)")]
+    public TextMeshProUGUI plrVelocity;
+
     [Header("Controls")]
     private PlayerInput playerControls;
 
@@ -29,14 +34,14 @@ public class movement : MonoBehaviour
     //Controls (Awake gets called before Start)
     private void Awake()
     {
-        playerControls = new PlayerInput();
+       // playerControls = new PlayerInput();
 
         //playerControls.Player.Move.performed += 
     }
 
     private void Start()
     {
-        gravity /= 10000f;
+        //gravity /= 10000f;
     }
 
     private void Update()
@@ -50,6 +55,11 @@ public class movement : MonoBehaviour
     // Functions
     private void MovementRightLeft()
     {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        Vector3 velocity = rb.velocity;
+
+        plrVelocity.text = "Player Velocity: " + velocity.ToString();
+
         if (Input.GetKey(KeyCode.D))
         {
             transform.Translate(playerSpeed / 100, 0f, 0f); // Divided by 100 so that we can keep the value of speed small
@@ -93,6 +103,7 @@ public class movement : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundDistance, anythingMask);
     }
 
+    // Draws the circle visual for floor collision
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
