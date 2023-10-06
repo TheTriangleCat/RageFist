@@ -227,6 +227,36 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &290935374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290935368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: d236f41af7361a945bdd606442c90c7c, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &502459219
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +509,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2821486922755388183, guid: e6a2912cd9709fc41a1f064e3ac3005f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 290935369}
+    - targetCorrespondingSourceObject: {fileID: 2821486922755388183, guid: e6a2912cd9709fc41a1f064e3ac3005f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 290935374}
     - targetCorrespondingSourceObject: {fileID: 2821486922755388183, guid: e6a2912cd9709fc41a1f064e3ac3005f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 290935372}
