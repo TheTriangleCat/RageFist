@@ -11,20 +11,20 @@ public class movement : MonoBehaviour
     private PlayerInput playerControls;
 
     [Header("Walking")]
-    public float playerSpeed = 1f;
+    public float playerSpeed;
     //[SerializeField] float speedDivident = 100f;
 
     public Transform groundCheck;
-    [SerializeField] float groundDistance = 0.4f;
+
+    [SerializeField] float groundDistance;
+
     public bool isGrounded;
     public LayerMask anythingMask;
 
     [Header("Jumping")]
-    public float yVelocity = 0.0001f;
-    [SerializeField] float currentYVel;
+    public float gravity;
 
-    public float jumpYVel = 0.01f;
-    public float jumpYVelStartup;
+    [SerializeField] float currentYVel;
 
     //Controls (Awake gets called before Start)
     private void Awake()
@@ -36,7 +36,7 @@ public class movement : MonoBehaviour
 
     private void Start()
     {
-        jumpYVelStartup = groundDistance;
+        gravity /= 10000f;
     }
 
     private void Update()
@@ -48,7 +48,7 @@ public class movement : MonoBehaviour
     }
 
     // Functions
-    void MovementRightLeft()
+    private void MovementRightLeft()
     {
         if (Input.GetKey(KeyCode.D))
         {
@@ -76,7 +76,7 @@ public class movement : MonoBehaviour
 
         else
         {
-            currentYVel -= yVelocity;
+            currentYVel -= gravity;
         }
     }
 
@@ -84,8 +84,7 @@ public class movement : MonoBehaviour
     {
         if (isGrounded)
         {
-            //transform.Translate(0,0,0);
-            //currentYVel = jumpYVel;
+
         }
     }
 
