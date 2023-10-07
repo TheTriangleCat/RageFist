@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerMovement : MonoBehaviour
+public class Physics : MonoBehaviour
 {
     [Header("Testing stuff (deleat after)")]
     public TextMeshProUGUI plrVelocity;
@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput playerControls;
 
     [Header("Walking")]
+    public Rigidbody2D playerRigidbody;
     public float playerSpeed;
     //[SerializeField] float speedDivident = 100f;
 
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        playerRigidbody.freezeRotation = true;
         //gravity /= 10000f;
     }
 
@@ -55,21 +57,40 @@ public class PlayerMovement : MonoBehaviour
     // Functions
     private void MovementRightLeft()
     {
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        Vector3 velocity = rb.velocity;
+        Vector3 velocity = playerRigidbody.velocity;
 
         plrVelocity.text = "Player Velocity: " + velocity.ToString();
 
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(playerSpeed / 100, 0f, 0f); // Divided by 100 so that we can keep the value of speed small
+            playerRigidbody.AddForceX(playerSpeed * 10 * Time.deltaTime);
+
+            Vector3 flatVel = new Vector2(playerRigidbody.velocity.x, 0f);
+
+            // limit velocity if needed
+            if (flatVel.magnitude > playerSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * playerSpeed * Time.deltaTime;
+                playerRigidbody.velocity = new Vector3(limitedVel.x, playerRigidbody.velocity.y, limitedVel.z);
+            }
+
             transform.rotation = Quaternion.Euler(0, 0, 0); // Flip player
             Debug.Log("going right");
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(playerSpeed / 100, 0f, 0f); // Divided by 100 so that we can keep the value of speed small
+            playerRigidbody.AddForceX(-playerSpeed * 10 * Time.deltaTime);
+
+            Vector3 flatVel = new Vector2(playerRigidbody.velocity.x, 0f);
+
+            // limit velocity if needed
+            if (flatVel.magnitude > playerSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * playerSpeed * Time.deltaTime;
+                playerRigidbody.velocity = new Vector3(limitedVel.x, playerRigidbody.velocity.y, limitedVel.z);
+            }
+
             transform.rotation = Quaternion.Euler(0, 180, 0); // Flip player
             Debug.Log("going left");
         }
@@ -77,16 +98,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Fall()
     {
-        transform.Translate(0, currentYVel, 0);
+       // transform.Translate(0, currentYVel, 0);
 
         if (isGrounded) 
         {
-            currentYVel = 0;
+            //currentYVel = 0;
         }
 
         else
         {
-            currentYVel -= gravity;
+            //currentYVel -= gravity;
         }
     }
 
