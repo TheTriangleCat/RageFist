@@ -75,10 +75,29 @@ public class Physics : MonoBehaviour
 
         // Movement
         Vector2 moveDirection = playerControls.ReadValue<Vector2>();
-        Debug.Log(moveDirection);
         playerRigidbody.velocity = new Vector2(moveDirection.x * playerSpeed, playerRigidbody.velocity.y);
-//        transform.rotation = Quaternion.Euler(0f, moveDirection.y * 180f, 0f); // Flip player
 
+        // Limit the velocity
+        Vector2 flatVel = new Vector2(playerRigidbody.velocity.x, 0f);
+
+        if (flatVel.magnitude > playerSpeed)
+        {
+            Vector2 limitedVel = flatVel.normalized * playerSpeed;
+            playerRigidbody.velocity = new Vector2(limitedVel.x, playerRigidbody.velocity.y);
+        }
+
+        // Flipping the player
+        if (moveDirection.x == 1)
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f); 
+        }
+
+        else if (moveDirection.x == -1) 
+        {
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f); 
+        }
+
+        // Jumping (Testing phase)
         if (Input.GetKey (KeyCode.Space)) 
         {
             playerRigidbody.AddForceY(50);

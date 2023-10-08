@@ -576,30 +576,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2750972772107875963, guid: bb2783253227ecb4883db01a7ff81272, type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750972772107875963, guid: bb2783253227ecb4883db01a7ff81272, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750972772107875963, guid: bb2783253227ecb4883db01a7ff81272, type: 3}
-      propertyPath: m_Interpolate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750972772107875963, guid: bb2783253227ecb4883db01a7ff81272, type: 3}
-      propertyPath: m_GravityScale
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750972772107875963, guid: bb2783253227ecb4883db01a7ff81272, type: 3}
-      propertyPath: m_SleepingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750972772107875963, guid: bb2783253227ecb4883db01a7ff81272, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2821486922755388183, guid: bb2783253227ecb4883db01a7ff81272, type: 3}
       propertyPath: m_Name
       value: PhysicsPlayer
@@ -783,10 +759,6 @@ PrefabInstance:
     - target: {fileID: 5184991999781313127, guid: bb2783253227ecb4883db01a7ff81272, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.276
-      objectReference: {fileID: 0}
-    - target: {fileID: 6126396640788333627, guid: bb2783253227ecb4883db01a7ff81272, type: 3}
-      propertyPath: m_Material
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
