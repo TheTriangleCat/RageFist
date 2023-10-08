@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -13,7 +14,8 @@ public class Physics : MonoBehaviour
     public TextMeshProUGUI plrVelocity;
 
     [Header("Controls")]
-    private PlayerInput playerControls;
+    //private PlayerInput playerControls;
+    public InputAction playerControls;
 
     [Header("Walking")]
     public Rigidbody2D playerRigidbody;
@@ -32,6 +34,16 @@ public class Physics : MonoBehaviour
 
     [SerializeField] float currentYVel;
 
+    private void OnEnable()
+    {
+        playerControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerControls.Disable();
+    }
+
     //Controls (Awake gets called before Start)
     private void Awake()
     {
@@ -46,7 +58,7 @@ public class Physics : MonoBehaviour
         //gravity /= 10000f;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         IsGrounded();
         MovementRightLeft();
@@ -61,38 +73,15 @@ public class Physics : MonoBehaviour
 
         plrVelocity.text = "Player Velocity: " + velocity.ToString();
 
-        if (Input.GetKey(KeyCode.D))
+        // Movement
+        Vector2 moveDirection = playerControls.ReadValue<Vector2>();
+        Debug.Log(moveDirection);
+        playerRigidbody.velocity = new Vector2(moveDirection.x * playerSpeed, playerRigidbody.velocity.y);
+//        transform.rotation = Quaternion.Euler(0f, moveDirection.y * 180f, 0f); // Flip player
+
+        if (Input.GetKey (KeyCode.Space)) 
         {
-            playerRigidbody.AddForceX(playerSpeed * 10 * Time.deltaTime);
-
-            Vector3 flatVel = new Vector2(playerRigidbody.velocity.x, 0f);
-
-            // limit velocity if needed
-            if (flatVel.magnitude > playerSpeed)
-            {
-                Vector3 limitedVel = flatVel.normalized * playerSpeed * Time.deltaTime;
-                playerRigidbody.velocity = new Vector3(limitedVel.x, playerRigidbody.velocity.y, limitedVel.z);
-            }
-
-            transform.rotation = Quaternion.Euler(0, 0, 0); // Flip player
-            Debug.Log("going right");
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            playerRigidbody.AddForceX(-playerSpeed * 10 * Time.deltaTime);
-
-            Vector3 flatVel = new Vector2(playerRigidbody.velocity.x, 0f);
-
-            // limit velocity if needed
-            if (flatVel.magnitude > playerSpeed)
-            {
-                Vector3 limitedVel = flatVel.normalized * playerSpeed * Time.deltaTime;
-                playerRigidbody.velocity = new Vector3(limitedVel.x, playerRigidbody.velocity.y, limitedVel.z);
-            }
-
-            transform.rotation = Quaternion.Euler(0, 180, 0); // Flip player
-            Debug.Log("going left");
+            playerRigidbody.AddForceY(50);
         }
     }
 
@@ -121,13 +110,13 @@ public class Physics : MonoBehaviour
 
     private void IsGrounded()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundDistance, anythingMask);
+        //isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundDistance, anythingMask);
     }
 
     // Draws the circle visual for floor collision
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(groundCheck.position, groundDistance);
-    }
+   // private void OnDrawGizmos()
+    //{
+      //  Gizmos.color = Color.yellow;
+       // Gizmos.DrawWireSphere(groundCheck.position, groundDistance);
+   // }
 }
