@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.StandaloneInputModule;
 
 public class Physics : MonoBehaviour
 {
@@ -17,17 +18,27 @@ public class Physics : MonoBehaviour
     private PlayerControls playerControls;
 
     [Header("Walking")]
+    public Rigidbody2D playerRigidbody;
+
     private Vector2 moveDirection;
 
     public float startFriction;
     public float endFriction;
 
-    public Rigidbody2D playerRigidbody;
     public float playerSpeed;
 
-    //[Header("Jumping")]
-    
+    [Header("Jumping")]
+    public LayerMask groundLayer;
+    public Transform groundCheck;
 
+    public float circleSize; // We make a circle and then the circle checks if its touching the floor
+
+    private bool onGround;
+    public float jumpPower;
+
+    public float mass;
+
+    //Controls 
     private void OnEnable()
     {
         playerControls.Enable();
@@ -38,8 +49,7 @@ public class Physics : MonoBehaviour
         playerControls.Disable();
     }
 
-    //Controls (Awake gets called before Start)
-    private void Awake()
+    private void Awake() // Awake gets called before Start
     {
         playerControls = new PlayerControls();
 
@@ -47,6 +57,7 @@ public class Physics : MonoBehaviour
         playerControls.Player.Move.canceled += ctx => moveDirection = Vector2.zero;
     }
 
+    // Movement system
     private void Start()
     {
         playerRigidbody.freezeRotation = true;
@@ -55,6 +66,9 @@ public class Physics : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        Jump();
+
+        CheckGround();
     }
 
     // Functions
@@ -68,51 +82,70 @@ public class Physics : MonoBehaviour
         // Flipping the player
         if (moveDirection.x == 1f)
         {
-            playerRigidbody.velocity += new Vector2(startFriction, 0f);
+            playerRigidbody.velocityX += startFriction;
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
 
         else if (moveDirection.x == -1f) 
         {
-            playerRigidbody.velocity -= new Vector2(startFriction, 0f);
+            playerRigidbody.velocityX -= startFriction;
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
 
         // End friction for left side of player
         if (transform.rotation.eulerAngles.y == 180f && moveDirection.x == 0f)
         {
-            playerRigidbody.velocity += new Vector2(endFriction, 0f);
+            playerRigidbody.velocityX += endFriction;
 
             if (playerRigidbody.velocityX >= 0f) 
             {
-                playerRigidbody.velocity = Vector2.ClampMagnitude(playerRigidbody.velocity, 0f);
+                playerRigidbody.velocityX = 0f;
             }
         }
 
         // End friction for right side of player
         if (transform.rotation.eulerAngles.y == 0f && moveDirection.x == 0f)
         {
-            playerRigidbody.velocity -= new Vector2(endFriction, 0f);
+            playerRigidbody.velocityX -= endFriction;
 
             if (playerRigidbody.velocityX <= 0f)
             {
-                playerRigidbody.velocity = Vector2.ClampMagnitude(playerRigidbody.velocity, 0f);
+                playerRigidbody.velocityX = 0f;
             }
         }
 
-        // Limit the velocity
-        Vector2 flatVel = new Vector2(playerRigidbody.velocity.x, 0f);
+        // Limit the walking velocity
+        Vector2 flatVel = new Vector2(playerRigidbody.velocityX, 0f);
 
         if (flatVel.magnitude > playerSpeed)
         {
             Vector2 limitedVel = flatVel.normalized * playerSpeed;
-            playerRigidbody.velocity = new Vector2(limitedVel.x, 0f);
+            playerRigidbody.velocityX = limitedVel.x;
+        }
+    }
+
+    private void Jump()
+    {
+        if (onGround)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                playerRigidbody.velocityY += jumpPower;
+            }
         }
 
-        // Jumping (Testing phase)
-        if (Input.GetKey (KeyCode.Space)) 
-        {
-            playerRigidbody.AddForceY(50f);
-        }
+    }
+
+    private void CheckGround()
+    {
+        onGround = Physics2D.OverlapCircle(groundCheck.position, circleSize, groundLayer);
+        Debug.Log(onGround);
+    }
+
+    //Draw the circle preview
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(groundCheck.position, circleSize);
     }
 }
