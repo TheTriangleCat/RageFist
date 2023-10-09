@@ -25,17 +25,8 @@ public class Physics : MonoBehaviour
     public Rigidbody2D playerRigidbody;
     public float playerSpeed;
 
-    public Transform groundCheck;
-
-    [SerializeField] float groundDistance;
-
-    public bool isGrounded;
-    public LayerMask anythingMask;
-
-    [Header("Jumping")]
-    public float gravity;
-
-    [SerializeField] float currentYVel;
+    //[Header("Jumping")]
+    
 
     private void OnEnable()
     {
@@ -59,14 +50,11 @@ public class Physics : MonoBehaviour
     private void Start()
     {
         playerRigidbody.freezeRotation = true;
-        //gravity /= 10000f;
     }
 
     private void FixedUpdate()
     {
-        IsGrounded();
         MovePlayer();
-        Jump();
     }
 
     // Functions
@@ -77,8 +65,6 @@ public class Physics : MonoBehaviour
         plrVelocity.text = "Player Velocity: " + velocity.ToString();
 
         // Movement
-
-
         // Flipping the player
         if (moveDirection.x == 1f)
         {
@@ -120,7 +106,7 @@ public class Physics : MonoBehaviour
         if (flatVel.magnitude > playerSpeed)
         {
             Vector2 limitedVel = flatVel.normalized * playerSpeed;
-            playerRigidbody.velocity = new Vector2(limitedVel.x, playerRigidbody.velocity.y);
+            playerRigidbody.velocity = new Vector2(limitedVel.x, 0f);
         }
 
         // Jumping (Testing phase)
@@ -128,18 +114,5 @@ public class Physics : MonoBehaviour
         {
             playerRigidbody.AddForceY(50f);
         }
-    }
-
-    private void Jump()
-    {
-        if (isGrounded)
-        {
-
-        }
-    }
-
-    private void IsGrounded()
-    {
-        //isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundDistance, anythingMask);
     }
 }
