@@ -36,8 +36,6 @@ public class Physics : MonoBehaviour
     private bool onGround;
     public float jumpPower;
 
-    public float mass;
-
     //Controls 
     private void OnEnable()
     {
@@ -53,8 +51,8 @@ public class Physics : MonoBehaviour
     {
         playerControls = new PlayerControls();
 
-        playerControls.Player.Move.performed += ctx => moveDirection = ctx.ReadValue<Vector2>();
-        playerControls.Player.Move.canceled += ctx => moveDirection = Vector2.zero;
+        playerControls.Player.PlayerControls.performed += ctx => moveDirection = ctx.ReadValue<Vector2>();
+        playerControls.Player.PlayerControls.canceled += ctx => moveDirection = Vector2.zero;
     }
 
     // Movement system
@@ -126,11 +124,12 @@ public class Physics : MonoBehaviour
 
     private void Jump()
     {
+        Debug.Log(moveDirection);
         if (onGround)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (moveDirection.y == 1f) 
             {
-                playerRigidbody.velocityY += jumpPower;
+                playerRigidbody.velocityY = jumpPower;
             }
         }
 
@@ -139,7 +138,7 @@ public class Physics : MonoBehaviour
     private void CheckGround()
     {
         onGround = Physics2D.OverlapCircle(groundCheck.position, circleSize, groundLayer);
-        Debug.Log(onGround);
+        //Debug.Log(onGround);
     }
 
     //Draw the circle preview
