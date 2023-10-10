@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
@@ -29,11 +30,17 @@ public class Physics : MonoBehaviour
 
     [Header("Jumping")]
     public LayerMask groundLayer;
+
+    public BoxCollider2D playerCollisionBox;
+
     public Transform groundCheck;
+    public Transform ceilingCheck;
 
     public float circleSize; // We make a circle and then the circle checks if its touching the floor
 
     private bool onGround;
+    private bool touchingCeiling;
+
     public float jumpPower;
 
     //Controls 
@@ -58,6 +65,7 @@ public class Physics : MonoBehaviour
     // Movement system
     private void Start()
     {
+
         playerRigidbody.freezeRotation = true;
     }
 
@@ -66,7 +74,7 @@ public class Physics : MonoBehaviour
         MovePlayer();
         Jump();
 
-        CheckGround();
+        CheckCeilingAndGround();
     }
 
     // Functions
@@ -124,21 +132,30 @@ public class Physics : MonoBehaviour
 
     private void Jump()
     {
-        Debug.Log(moveDirection);
         if (onGround)
         {
+            playerCollisionBox.enabled = true;
+
             if (moveDirection.y == 1f) 
             {
                 playerRigidbody.velocityY = jumpPower;
             }
         }
 
+        // Jumping to another platform
+        if (touchingCeiling && moveDirection.y != 0)
+        {
+            Debug.Log("AUIFHJABF");
+            playerCollisionBox.enabled = false;
+        }
+
+        Debug.Log(touchingCeiling);
     }
 
-    private void CheckGround()
+    private void CheckCeilingAndGround()
     {
         onGround = Physics2D.OverlapCircle(groundCheck.position, circleSize, groundLayer);
-        //Debug.Log(onGround);
+        touchingCeiling = Physics2D.OverlapCircle(ceilingCheck.position, circleSize, groundLayer);
     }
 
     //Draw the circle preview
@@ -146,5 +163,8 @@ public class Physics : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck.position, circleSize);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(ceilingCheck.position, circleSize);
     }
 }
