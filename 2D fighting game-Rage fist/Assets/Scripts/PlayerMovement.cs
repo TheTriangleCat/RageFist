@@ -43,6 +43,7 @@ public class Physics : MonoBehaviour
     public float gravityFalloff; // Gravity scale after reaching max height
     public float jumpPower;
     [SerializeField] bool doubleJump;
+    [SerializeField] bool doubleJumpCheck;
 
     //Controls 
     private void OnEnable()
@@ -137,7 +138,7 @@ public class Physics : MonoBehaviour
 
         if (onGround)
         {
-
+            doubleJumpCheck = true;
             playerRigidbody.gravityScale = defaultGravityScale;
 
             if (moveDirection.y == 1f) 
@@ -145,14 +146,14 @@ public class Physics : MonoBehaviour
                 playerRigidbody.velocityY = jumpPower;
             }
         }
-        else if (doubleJump = !Physics2D.OverlapCircle(jumpCheck.position, circleSize2, groundLayer))
+        else if (doubleJump = !Physics2D.OverlapCircle(jumpCheck.position, circleSize2, groundLayer) && doubleJumpCheck)
         {
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 playerRigidbody.gravityScale = defaultGravityScale;
                 playerRigidbody.velocityY = jumpPower;
-                doubleJump = false;
+                doubleJumpCheck = false;
             }
 
         }
