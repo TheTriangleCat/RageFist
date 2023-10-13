@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -20,6 +18,7 @@ public class Physics : MonoBehaviour
 
     [Header("Walking")]
     public Rigidbody2D playerRigidbody;
+    private Vector2 playerVelocity;
 
     private Vector2 moveDirection;
 
@@ -31,16 +30,15 @@ public class Physics : MonoBehaviour
     [Header("Jumping")]
     public LayerMask groundLayer;
 
-    public BoxCollider2D playerCollisionBox;
-
     public Transform groundCheck;
-    public Transform ceilingCheck;
 
     public float circleSize; // We make a circle and then the circle checks if its touching the floor
 
     private bool onGround;
-    private bool touchingCeiling;
 
+    private float defaultGravityScale;
+
+    public float gravityFalloff; // Gravity scale after reaching max height
     public float jumpPower;
 
     //Controls 
@@ -65,6 +63,7 @@ public class Physics : MonoBehaviour
     // Movement system
     private void Start()
     {
+        defaultGravityScale = playerRigidbody.gravityScale;
 
         playerRigidbody.freezeRotation = true;
     }
@@ -74,15 +73,15 @@ public class Physics : MonoBehaviour
         MovePlayer();
         Jump();
 
-        CheckCeilingAndGround();
+        CheckGround();
     }
 
     // Functions
     private void MovePlayer()
     {
-        Vector2 velocity = playerRigidbody.velocity;
+        playerVelocity = playerRigidbody.velocity;
 
-        plrVelocity.text = "Player Velocity: " + velocity.ToString();
+        plrVelocity.text = "Player Velocity: " + playerVelocity.ToString();
 
         // Movement
         // Flipping the player
@@ -92,7 +91,7 @@ public class Physics : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
 
-        else if (moveDirection.x == -1f) 
+        else if (moveDirection.x == -1f)
         {
             playerRigidbody.velocityX -= startFriction;
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
@@ -134,7 +133,7 @@ public class Physics : MonoBehaviour
     {
         if (onGround)
         {
-            playerCollisionBox.enabled = true;
+            playerRigidbody.gravityScale = defaultGravityScale;
 
             if (moveDirection.y == 1f) 
             {
@@ -142,20 +141,16 @@ public class Physics : MonoBehaviour
             }
         }
 
-        // Jumping to another platform
-        if (touchingCeiling && moveDirection.y != 0)
+        // Increasing gravity when the player is falling
+        if (Mathf.Abs(playerRigidbody.velocityY) >= jumpPower)
         {
-            Debug.Log("AUIFHJABF");
-            playerCollisionBox.enabled = false;
+            playerRigidbody.gravityScale += gravityFalloff;
         }
-
-        Debug.Log(touchingCeiling);
     }
 
-    private void CheckCeilingAndGround()
+    private void CheckGround()
     {
         onGround = Physics2D.OverlapCircle(groundCheck.position, circleSize, groundLayer);
-        touchingCeiling = Physics2D.OverlapCircle(ceilingCheck.position, circleSize, groundLayer);
     }
 
     //Draw the circle preview
@@ -163,8 +158,5 @@ public class Physics : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck.position, circleSize);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(ceilingCheck.position, circleSize);
     }
 }
