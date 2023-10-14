@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -31,19 +32,18 @@ public class Physics : MonoBehaviour
     public LayerMask groundLayer;
 
     public Transform groundCheck;
-    public Transform jumpCheck;
+    public BoxCollider2D jumpDetect;
 
     public float circleSize; // We make a circle and then the circle checks if its touching the floor
-    public float circleSize2;
 
-    private bool onGround;
+    [SerializeField] private bool onGround;
+    [SerializeField] private bool canJump;
 
     private float defaultGravityScale;
 
     public float gravityFalloff; // Gravity scale after reaching max height
+    public float maxGravityFalloff; // Max gravity fallof
     public float jumpPower;
-    [SerializeField] bool doubleJump;
-    [SerializeField] bool doubleJumpCheck;
 
     //Controls 
     private void OnEnable()
@@ -77,7 +77,7 @@ public class Physics : MonoBehaviour
         MovePlayer();
         Jump();
 
-        CheckGround();
+        StartCoroutine(CheckGround());
     }
 
     // Functions
@@ -135,27 +135,15 @@ public class Physics : MonoBehaviour
 
     private void Jump()
     {
-
-        if (onGround)
+        if (onGround && canJump)//&& canJump
         {
-            doubleJumpCheck = true;
             playerRigidbody.gravityScale = defaultGravityScale;
 
             if (moveDirection.y == 1f) 
             {
+                canJump = false;
                 playerRigidbody.velocityY = jumpPower;
             }
-        }
-        else if (doubleJump = !Physics2D.OverlapCircle(jumpCheck.position, circleSize2, groundLayer) && doubleJumpCheck)
-        {
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                playerRigidbody.gravityScale = defaultGravityScale;
-                playerRigidbody.velocityY = jumpPower;
-                doubleJumpCheck = false;
-            }
-
         }
 
         // Increasing gravity when the player is falling
@@ -163,11 +151,45 @@ public class Physics : MonoBehaviour
         {
             playerRigidbody.gravityScale += gravityFalloff;
         }
+
+        // Clamping the max gravity scale
+        if (playerRigidbody.gravityScale > maxGravityFalloff)
+        {
+            playerRigidbody.gravityScale = maxGravityFalloff;
+        }
     }
 
-    private void CheckGround()
+    // Fix double jump when going to another floor
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        onGround = Physics2D.OverlapCircle(groundCheck.position, circleSize, groundLayer);
+        if (collision.gameObject.layer == LayerMask.NameToLayer(LayerMask.LayerToName(groundLayer)) - 3 && Physics2D.IsTouching(collision.gameObject.GetComponent<BoxCollider2D>(), jumpDetect))
+        {
+            canJump = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer(LayerMask.LayerToName(groundLayer)) - 3 && Physics2D.IsTouching(collision.gameObject.GetComponent<BoxCollider2D>(), jumpDetect))
+        {
+            canJump = false;
+        }
+    }
+
+    // Check ground coroutine
+    IEnumerator CheckGround()
+    {
+        if (canJump)
+        {
+            onGround = Physics2D.OverlapCircle(groundCheck.position, circleSize, groundLayer);
+        }
+
+        else
+        {
+            onGround = false;
+        }
+
+        yield return canJump;
     }
 
     //Draw the circle preview
@@ -175,7 +197,7 @@ public class Physics : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck.position, circleSize);
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(jumpCheck.position, circleSize2);
     }
+
+
 }
