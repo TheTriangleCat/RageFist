@@ -28,10 +28,19 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""2aed311f-cd85-4d63-bfd4-721a93349d80"",
             ""actions"": [
                 {
-                    ""name"": ""PlayerControls"",
+                    ""name"": ""Walking"",
                     ""type"": ""Value"",
-                    ""id"": ""22d04be6-8eaf-43a8-892e-97b4eebc1362"",
+                    ""id"": ""4f0d4a0e-a8f5-42c7-9b31-9be69edf9bdd"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jumping"",
+                    ""type"": ""Button"",
+                    ""id"": ""2b6f6f55-c7c5-4612-a82c-99f932dd68ce"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -39,48 +48,70 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""PlayerMovement"",
-                    ""id"": ""00ca640b-d935-4593-8157-c05846ea39b3"",
-                    ""path"": ""Dpad(mode=1)"",
+                    ""name"": ""WalkingKeys"",
+                    ""id"": ""e8504fb4-1c6a-4f3c-bf42-9237874f1818"",
+                    ""path"": ""2DVector(mode=1)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""PlayerControls"",
+                    ""action"": ""Walking"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""up"",
+                    ""id"": ""df184063-2e80-4578-854e-c8c804273630"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Walking"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""72e29b97-a564-458a-8a3a-48a3bd34382e"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Walking"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""left"",
-                    ""id"": ""d2581a9b-1d11-4566-b27d-b92aff5fabbc"",
+                    ""id"": ""bc0bc346-4e32-4105-aeb8-302103528d07"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""PlayerControls"",
+                    ""action"": ""Walking"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""fcfe95b8-67b9-4526-84b5-5d0bc98d6400"",
+                    ""id"": ""772b6bca-d2ef-4170-a365-57fc29ce0c05"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""PlayerControls"",
+                    ""action"": ""Walking"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""a47957ce-caa5-4b05-93a4-903e3fc9e9fc"",
+                    ""name"": """",
+                    ""id"": ""50a66bc8-1c70-4333-b4e5-7488fd84d9e6"",
                     ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press,Tap(duration=0.2,pressPoint=0.5)"",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""PlayerControls"",
+                    ""action"": ""Jumping"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -666,7 +697,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_PlayerControls = m_Player.FindAction("PlayerControls", throwIfNotFound: true);
+        m_Player_Walking = m_Player.FindAction("Walking", throwIfNotFound: true);
+        m_Player_Jumping = m_Player.FindAction("Jumping", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -740,12 +772,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_PlayerControls;
+    private readonly InputAction m_Player_Walking;
+    private readonly InputAction m_Player_Jumping;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @PlayerControls => m_Wrapper.m_Player_PlayerControls;
+        public InputAction @Walking => m_Wrapper.m_Player_Walking;
+        public InputAction @Jumping => m_Wrapper.m_Player_Jumping;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -755,16 +789,22 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @PlayerControls.started += instance.OnPlayerControls;
-            @PlayerControls.performed += instance.OnPlayerControls;
-            @PlayerControls.canceled += instance.OnPlayerControls;
+            @Walking.started += instance.OnWalking;
+            @Walking.performed += instance.OnWalking;
+            @Walking.canceled += instance.OnWalking;
+            @Jumping.started += instance.OnJumping;
+            @Jumping.performed += instance.OnJumping;
+            @Jumping.canceled += instance.OnJumping;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @PlayerControls.started -= instance.OnPlayerControls;
-            @PlayerControls.performed -= instance.OnPlayerControls;
-            @PlayerControls.canceled -= instance.OnPlayerControls;
+            @Walking.started -= instance.OnWalking;
+            @Walking.performed -= instance.OnWalking;
+            @Walking.canceled -= instance.OnWalking;
+            @Jumping.started -= instance.OnJumping;
+            @Jumping.performed -= instance.OnJumping;
+            @Jumping.canceled -= instance.OnJumping;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -947,7 +987,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnPlayerControls(InputAction.CallbackContext context);
+        void OnWalking(InputAction.CallbackContext context);
+        void OnJumping(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
