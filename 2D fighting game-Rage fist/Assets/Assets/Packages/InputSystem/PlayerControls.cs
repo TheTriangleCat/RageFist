@@ -37,12 +37,21 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Jumping"",
+                    ""name"": ""SingleJump"",
                     ""type"": ""Button"",
                     ""id"": ""2b6f6f55-c7c5-4612-a82c-99f932dd68ce"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(pressPoint=0.5,behavior=2)"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""DoubleJump"",
+                    ""type"": ""Button"",
+                    ""id"": ""2bfbac8b-3bbe-471a-8cae-6223c5a9b167"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap(duration=0.1,pressPoint=0.1)"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -87,7 +96,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Jumping"",
+                    ""action"": ""SingleJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a34bc7eb-be2f-44db-ba2b-2de8f694f206"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""DoubleJump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -676,7 +696,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Walking = m_Player.FindAction("Walking", throwIfNotFound: true);
-        m_Player_Jumping = m_Player.FindAction("Jumping", throwIfNotFound: true);
+        m_Player_SingleJump = m_Player.FindAction("SingleJump", throwIfNotFound: true);
+        m_Player_DoubleJump = m_Player.FindAction("DoubleJump", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -751,13 +772,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Walking;
-    private readonly InputAction m_Player_Jumping;
+    private readonly InputAction m_Player_SingleJump;
+    private readonly InputAction m_Player_DoubleJump;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Walking => m_Wrapper.m_Player_Walking;
-        public InputAction @Jumping => m_Wrapper.m_Player_Jumping;
+        public InputAction @SingleJump => m_Wrapper.m_Player_SingleJump;
+        public InputAction @DoubleJump => m_Wrapper.m_Player_DoubleJump;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -770,9 +793,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Walking.started += instance.OnWalking;
             @Walking.performed += instance.OnWalking;
             @Walking.canceled += instance.OnWalking;
-            @Jumping.started += instance.OnJumping;
-            @Jumping.performed += instance.OnJumping;
-            @Jumping.canceled += instance.OnJumping;
+            @SingleJump.started += instance.OnSingleJump;
+            @SingleJump.performed += instance.OnSingleJump;
+            @SingleJump.canceled += instance.OnSingleJump;
+            @DoubleJump.started += instance.OnDoubleJump;
+            @DoubleJump.performed += instance.OnDoubleJump;
+            @DoubleJump.canceled += instance.OnDoubleJump;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -780,9 +806,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Walking.started -= instance.OnWalking;
             @Walking.performed -= instance.OnWalking;
             @Walking.canceled -= instance.OnWalking;
-            @Jumping.started -= instance.OnJumping;
-            @Jumping.performed -= instance.OnJumping;
-            @Jumping.canceled -= instance.OnJumping;
+            @SingleJump.started -= instance.OnSingleJump;
+            @SingleJump.performed -= instance.OnSingleJump;
+            @SingleJump.canceled -= instance.OnSingleJump;
+            @DoubleJump.started -= instance.OnDoubleJump;
+            @DoubleJump.performed -= instance.OnDoubleJump;
+            @DoubleJump.canceled -= instance.OnDoubleJump;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -966,7 +995,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnWalking(InputAction.CallbackContext context);
-        void OnJumping(InputAction.CallbackContext context);
+        void OnSingleJump(InputAction.CallbackContext context);
+        void OnDoubleJump(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

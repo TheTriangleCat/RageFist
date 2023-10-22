@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
     private bool doubleJumpCheck; // Check wheter the player can double jump while in the air
     public bool canDoubleJump; // This setting is to check if the player can double jump or not
     private bool playerDoubleJumped; // This is to check if the player has double jumped and to prevent it from doing bugs
-        
+
     private bool jumpKeyHeld;
     private bool canJump; // This is to check if the player has landed and is ready to jump so it can't be spammed if the player holds key down
 

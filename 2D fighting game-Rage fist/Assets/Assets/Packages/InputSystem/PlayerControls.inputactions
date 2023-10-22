@@ -15,12 +15,21 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jumping",
+                    "name": "SingleJump",
                     "type": "Button",
                     "id": "2b6f6f55-c7c5-4612-a82c-99f932dd68ce",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(pressPoint=0.5,behavior=2)",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "DoubleJump",
+                    "type": "Button",
+                    "id": "2bfbac8b-3bbe-471a-8cae-6223c5a9b167",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap(duration=0.1,pressPoint=0.1)",
                     "initialStateCheck": false
                 }
             ],
@@ -65,7 +74,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Jumping",
+                    "action": "SingleJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a34bc7eb-be2f-44db-ba2b-2de8f694f206",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "DoubleJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

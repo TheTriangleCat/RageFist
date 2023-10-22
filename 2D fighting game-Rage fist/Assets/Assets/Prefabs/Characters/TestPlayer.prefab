@@ -264,7 +264,7 @@ MonoBehaviour:
   gravityFalloff: 2
   maxGravityFalloff: 10
   jumpCooldown: 0.5
-  jumpPower: 14
+  jumpPower: 20
 --- !u!114 &5743342596246035012
 MonoBehaviour:
   m_ObjectHideFlags: 0
