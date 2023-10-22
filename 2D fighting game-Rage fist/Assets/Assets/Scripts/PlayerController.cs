@@ -21,7 +21,7 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 /// It is useful since we are going to have multiple controls for multiple players so we can check wether its player1 or player2 that does the controls.
 /// </summary>
 
-public class Physics : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Testing stuff (deleat after)")]
     public TextMeshProUGUI plrVelocity;
@@ -52,7 +52,8 @@ public class Physics : MonoBehaviour
     private float doubleJumpTimes;
     private bool doubleJumpCheck; // Check wheter the player can double jump while in the air
     public bool canDoubleJump; // This setting is to check if the player can double jump or not
-
+    private bool playerDoubleJumped; // This is to check if the player has double jumped and to prevent it from doing bugs
+        
     private bool jumpKeyHeld;
     private bool canJump; // This is to check if the player has landed and is ready to jump so it can't be spammed if the player holds key down
 
@@ -117,9 +118,11 @@ public class Physics : MonoBehaviour
             Invoke(nameof(ResetJumping), jumpCooldown);
         }
 
-        else if (!onGround && jumpKeyHeld && canDoubleJump && doubleJumpCheck)
+        else if (!onGround && jumpKeyHeld && canDoubleJump && doubleJumpCheck && !playerDoubleJumped) // Double jump
         {
-            doubleJumpTimes += 1f;
+            doubleJumpTimes = 1;
+
+            playerDoubleJumped = true;
             doubleJumpCheck = false;
 
             Jump();
@@ -236,15 +239,16 @@ public class Physics : MonoBehaviour
         // Setting some stuff for double jump
         if (onGround)
         {
+            playerDoubleJumped = false;
             doubleJumpCheck = false;
 
             doubleJumpTimes = 0f;
         }
 
-        else if (!onGround)
+        // Fix the bug where the player can't jump if they walk off the floor
+        else if (!onGround && !playerDoubleJumped && canJump)
         {
-            Debug.Log(234);
-            canDoubleJump = true; // double jump not jumping when the player is falling
+            doubleJumpCheck = true;
         }
 
         yield return onGround;
