@@ -1,10 +1,10 @@
+using System;
 using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
-using UnityEngine.Windows;
 using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 /// <summary>
@@ -29,8 +29,6 @@ public class Physics : MonoBehaviour
     [Header("Controls")]
     private PlayerControls playerControls; // This is automatically adding inputs, no need to subscribe and unsubscribe
 
-    private InputAction walk;
-
     [Header("Walking")]
     public Rigidbody2D playerRigidbody;
     private Vector2 playerVelocity;
@@ -46,19 +44,22 @@ public class Physics : MonoBehaviour
     public LayerMask groundLayer;
 
     public Transform groundCheck;
-    public BoxCollider2D jumpDetectction;
 
-    public float circleSize; // We make a circle and then the circle checks if its touching the floor
+    public Vector2 boxSize; // We make a box and then the box checks if its touching the floor
 
     private bool onGround;
-    private bool canJump;
+
+    private float doubleJumpTimes;
+    private bool doubleJumpCheck; // Check wheter the player can double jump while in the air
     public bool canDoubleJump; // This setting is to check if the player can double jump or not
 
     private bool jumpKeyHeld;
-    private bool readyToJump; // This is to check if the player has landed and is ready to jump so it can't be spammed if the player holds key down
+    private bool canJump; // This is to check if the player has landed and is ready to jump so it can't be spammed if the player holds key down
+
+    public ParticleSystem jumpingParticle;
 
     private float defaultGravityScale;
-    
+
     public float gravityFalloff; // Gravity scale after reaching max height
     public float maxGravityFalloff; // Max gravity fallof
 
@@ -66,6 +67,7 @@ public class Physics : MonoBehaviour
     public float jumpPower;
 
     // Input system
+    #region Implementing the new input system, we have to do the walking manually by subscribing to it. The jumping is done automatically without subscribing.
     private void Awake()
     {
         playerControls = new PlayerControls();
@@ -76,17 +78,6 @@ public class Physics : MonoBehaviour
         playerControls.Player.Walking.performed += ctx => moveDirection = ctx.ReadValue<Vector2>();
         playerControls.Player.Walking.canceled += ctx => moveDirection = Vector2.zero;
     }
-
-    // Movement system
-    private void Start()
-    {
-        resetReadyToJump();
-
-        defaultGravityScale = playerRigidbody.gravityScale;
-
-        playerRigidbody.freezeRotation = true;
-    }
-
     private void OnEnable()
     {
         playerControls.Enable();
@@ -96,45 +87,51 @@ public class Physics : MonoBehaviour
     {
         playerControls.Disable();
     }
+    #endregion
 
     // Movement system
+    #region The movement system. Has walking, jumping, and double jump.
+    private void Start()
+    {
+        ResetJumping();
+
+        defaultGravityScale = playerRigidbody.gravityScale;
+
+        playerRigidbody.freezeRotation = true;
+    }
+
     private void FixedUpdate()
     {
-        // Adding force to jumping
-        if (jumpKeyHeld && readyToJump && onGround)
-        {
-            canJump = false;
-            readyToJump = false;
-
-            playerRigidbody.gravityScale = defaultGravityScale;
-            playerRigidbody.velocityY = jumpPower;
-
-            Invoke(nameof(resetReadyToJump), jumpCooldown);
-        }
-
-        // Increasing gravity when the player is falling
-        if (Mathf.Abs(playerRigidbody.velocityY) >= jumpPower)
-        {
-            playerRigidbody.gravityScale += gravityFalloff;
-        }
-
-        // Clamping the max gravity scale
-        if (playerRigidbody.gravityScale > maxGravityFalloff)
-        {
-            playerRigidbody.gravityScale = maxGravityFalloff;
-        }
-
         // Coroutine for onGround bool so it runs at the same time
         StartCoroutine(CheckGround());
 
         // Moving the player (inputs are done manually here)
         MovePlayer();
+
+        // Jumping
+        if (onGround && jumpKeyHeld && canJump)
+        {
+            canJump = false;
+            Jump();
+
+            Invoke(nameof(ResetJumping), jumpCooldown);
+        }
+
+        else if (!onGround && jumpKeyHeld && canDoubleJump && doubleJumpCheck)
+        {
+            doubleJumpTimes += 1f;
+            doubleJumpCheck = false;
+
+            Jump();
+        }
     }
+    #endregion
 
     // Functions
+    #region Functions for the movement, the jumping one is detecting if the player is holding it. We adding the jumping force at FixedUpdate.
+    // Walking
     private void MovePlayer()
     {
-        Debug.Log(moveDirection);
         playerVelocity = playerRigidbody.velocity;
 
         plrVelocity.text = "Player Velocity: " + playerVelocity.ToString();
@@ -158,7 +155,7 @@ public class Physics : MonoBehaviour
         {
             playerRigidbody.velocityX += endFriction;
 
-            if (playerRigidbody.velocityX >= 0f) 
+            if (playerRigidbody.velocityX >= 0f)
             {
                 playerRigidbody.velocityX = 0f;
             }
@@ -185,7 +182,28 @@ public class Physics : MonoBehaviour
         }
     }
 
-    public void Jump(InputAction.CallbackContext context) // We add force to jump separatly because the input system doesn't have a key held down so we get crafty here and do it in FixedUpdate
+    // Jumping
+    #region Jumping (3 functions because the SingleJumpInput and other one is the one detecting input from the new input system and we check if the player can jump then we acll the function)
+    private void Jump()
+    {
+        // Adding force to jumping
+        playerRigidbody.gravityScale = defaultGravityScale;
+        playerRigidbody.velocityY = jumpPower;
+
+        // Increasing gravity when the player is falling
+        if (Mathf.Abs(playerRigidbody.velocityY) >= jumpPower)
+        {
+            playerRigidbody.gravityScale += gravityFalloff;
+        }
+
+        // Clamping the max gravity scale
+        if (playerRigidbody.gravityScale > maxGravityFalloff)
+        {
+            playerRigidbody.gravityScale = maxGravityFalloff;
+        }
+    }
+
+    public void JumpInput(InputAction.CallbackContext context) // We add force to jump separatly because the input system doesn't have a key held down so we get crafty here and do it in FixedUpdate
     {
         if (context.performed)
         {
@@ -195,57 +213,48 @@ public class Physics : MonoBehaviour
         else if (context.canceled)
         {
             jumpKeyHeld = false;
+
+            if (doubleJumpTimes == 0f)
+            {
+                doubleJumpCheck = true;
+            }
         }
     }
+    #endregion
 
-    private void resetReadyToJump()
-    { 
-        readyToJump = transform;
-    }
-
-    // Fix double jump when going to another floor
-    private void OnCollisionEnter2D(Collision2D collision)
+    // This function resets the canJump value to true so we can call it with a cooldown
+    private void ResetJumping()
     {
-        if (collision.gameObject.layer == 6 && Physics2D.IsTouching(collision.gameObject.GetComponent<BoxCollider2D>(), jumpDetectction))
-        {
-            canJump = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == 6 && Physics2D.IsTouching(collision.gameObject.GetComponent<BoxCollider2D>(), jumpDetectction))
-        {
-            canJump = false;
-        }
+        canJump = true;
     }
 
     // Check ground coroutine
     IEnumerator CheckGround()
     {
+        onGround = Physics2D.OverlapBox(groundCheck.position, boxSize, 0f, groundLayer);
+
+        // Setting some stuff for double jump
         if (onGround)
         {
-            canDoubleJump = true;
-            readyToJump = true;
+            doubleJumpCheck = false;
+
+            doubleJumpTimes = 0f;
         }
 
-        if (canJump)
+        else if (!onGround)
         {
-            onGround = Physics2D.OverlapCircle(groundCheck.position, circleSize, groundLayer);
+            Debug.Log(234);
+            canDoubleJump = true; // double jump not jumping when the player is falling
         }
 
-        else
-        {
-            onGround = false;
-        }
-
-        yield return canJump;
+        yield return onGround;
     }
+    #endregion
 
-    //Draw the circle preview
+    //Draw the circle preview for onGround  
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(groundCheck.position, circleSize);
+        Gizmos.DrawWireCube(groundCheck.position, boxSize);
     }
 }

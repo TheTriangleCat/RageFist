@@ -15,13 +15,22 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jumping",
+                    "name": "SingleJump",
                     "type": "Button",
                     "id": "2b6f6f55-c7c5-4612-a82c-99f932dd68ce",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(pressPoint=0.5,behavior=2)",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "DoubleJump",
+                    "type": "Button",
+                    "id": "2bfbac8b-3bbe-471a-8cae-6223c5a9b167",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap(duration=0.1,pressPoint=0.1)",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -35,28 +44,6 @@
                     "action": "Walking",
                     "isComposite": true,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "df184063-2e80-4578-854e-c8c804273630",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Walking",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "72e29b97-a564-458a-8a3a-48a3bd34382e",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Walking",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "left",
@@ -84,10 +71,21 @@
                     "name": "",
                     "id": "50a66bc8-1c70-4333-b4e5-7488fd84d9e6",
                     "path": "<Keyboard>/space",
-                    "interactions": "Press,Tap(duration=0.2,pressPoint=0.5)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Jumping",
+                    "action": "SingleJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a34bc7eb-be2f-44db-ba2b-2de8f694f206",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "DoubleJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
