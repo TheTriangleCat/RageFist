@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEngine.EventSystems.StandaloneInputModule;
 
-public class Physics : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [Header("Testing stuff (deleat after)")]
     public TextMeshProUGUI plrVelocity;
@@ -45,6 +45,8 @@ public class Physics : MonoBehaviour
     public float maxGravityFalloff; // Max gravity fallof
     public float jumpPower;
 
+    [SerializeField] InputAction buttonAction;
+
     //Controls 
     private void OnEnable()
     {
@@ -62,6 +64,15 @@ public class Physics : MonoBehaviour
 
         playerControls.Player.PlayerControls.performed += ctx => moveDirection = ctx.ReadValue<Vector2>();
         playerControls.Player.PlayerControls.canceled += ctx => moveDirection = Vector2.zero;
+
+        if (buttonAction != null)
+        {
+            buttonAction.Enable();
+        }
+        else
+        {
+            Debug.LogError("buttonAction is not assigned in the Inspector.");
+        }
     }
 
     // Movement system
@@ -135,15 +146,26 @@ public class Physics : MonoBehaviour
 
     private void Jump()
     {
+        if(onGround)
+        {
+            canJump = true;
+        }
         if (onGround && canJump)//&& canJump
         {
             playerRigidbody.gravityScale = defaultGravityScale;
 
             if (moveDirection.y == 1f) 
             {
-                canJump = false;
                 playerRigidbody.velocityY = jumpPower;
             }
+        }
+
+        if (buttonAction.triggered&&canJump)
+        {
+            canJump = false;
+            Debug.Log("Button was single-tapped in the Update method.");
+            playerRigidbody.gravityScale = defaultGravityScale;
+            playerRigidbody.velocityY = jumpPower * 1.5f;
         }
 
         // Increasing gravity when the player is falling
