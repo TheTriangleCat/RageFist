@@ -313,12 +313,12 @@ MonoBehaviour:
   groundCheck: {fileID: 8212038419625400822}
   boxSize: {x: 0.62, y: 0.02}
   canDoubleJump: 1
-  jumpingParticle: {fileID: 1974989081462098120, guid: b672617ee620a574eaf090ce307a4875, type: 3}
+  jumpingParticle: {fileID: 3052360390099876697, guid: 82f047053ee7cfb4aa1015a0ee606ad8, type: 3}
   gravityFalloff: 2
   maxGravityFalloff: 10
   jumpCooldown: 0.5
   jumpPower: 14
-  particleSystemJump: {fileID: 2150764959824485377}
+  particleSystemJump: {fileID: 3300836020082985808}
 --- !u!114 &5743342596246035012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,6 +603,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82f047053ee7cfb4aa1015a0ee606ad8, type: 3}
+--- !u!1 &3300836020082985808 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3954064561157849939, guid: 82f047053ee7cfb4aa1015a0ee606ad8, type: 3}
+  m_PrefabInstance: {fileID: 1950415000478287875}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7330577540392955108 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9127166370936399079, guid: 82f047053ee7cfb4aa1015a0ee606ad8, type: 3}
