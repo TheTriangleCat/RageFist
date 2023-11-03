@@ -6,59 +6,88 @@
             "id": "2aed311f-cd85-4d63-bfd4-721a93349d80",
             "actions": [
                 {
-                    "name": "PlayerControls",
+                    "name": "Walking",
                     "type": "Value",
-                    "id": "22d04be6-8eaf-43a8-892e-97b4eebc1362",
+                    "id": "4f0d4a0e-a8f5-42c7-9b31-9be69edf9bdd",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SingleJump",
+                    "type": "Button",
+                    "id": "2b6f6f55-c7c5-4612-a82c-99f932dd68ce",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=0.5,behavior=2)",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "DoubleJump",
+                    "type": "Button",
+                    "id": "2bfbac8b-3bbe-471a-8cae-6223c5a9b167",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap(duration=0.1,pressPoint=0.1)",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
-                    "name": "PlayerMovement",
-                    "id": "00ca640b-d935-4593-8157-c05846ea39b3",
-                    "path": "Dpad(mode=1)",
+                    "name": "WalkingKeys",
+                    "id": "e8504fb4-1c6a-4f3c-bf42-9237874f1818",
+                    "path": "2DVector(mode=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PlayerControls",
+                    "action": "Walking",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "left",
-                    "id": "d2581a9b-1d11-4566-b27d-b92aff5fabbc",
+                    "id": "bc0bc346-4e32-4105-aeb8-302103528d07",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "PlayerControls",
+                    "action": "Walking",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "fcfe95b8-67b9-4526-84b5-5d0bc98d6400",
+                    "id": "772b6bca-d2ef-4170-a365-57fc29ce0c05",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "PlayerControls",
+                    "action": "Walking",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "up",
-                    "id": "a47957ce-caa5-4b05-93a4-903e3fc9e9fc",
+                    "name": "",
+                    "id": "50a66bc8-1c70-4333-b4e5-7488fd84d9e6",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "PlayerControls",
+                    "action": "SingleJump",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a34bc7eb-be2f-44db-ba2b-2de8f694f206",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "DoubleJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
