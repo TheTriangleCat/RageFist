@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour
     public float jumpCooldown;
     public float jumpPower;
 
+    [SerializeField] GameObject particleSystemJump;
+
     // Input system
     #region Implementing the new input system, we have to do the walking manually by subscribing to it. The jumping is done automatically without subscribing.
     private void Awake()
@@ -78,6 +80,8 @@ public class PlayerController : MonoBehaviour
         playerControls.Player.Walking.canceled += ctx => moveDirection = Vector2.zero;
         playerControls.Player.Walking.performed += ctx => moveDirection = ctx.ReadValue<Vector2>();
         playerControls.Player.Walking.canceled += ctx => moveDirection = Vector2.zero;
+
+        
     }
     private void OnEnable()
     {
@@ -192,6 +196,8 @@ public class PlayerController : MonoBehaviour
         // Adding force to jumping
         playerRigidbody.gravityScale = defaultGravityScale;
         playerRigidbody.velocityY = jumpPower;
+
+        particleSystemJump.GetComponent<ParticleSystem>().Play(true);
 
         // Increasing gravity when the player is falling
         if (Mathf.Abs(playerRigidbody.velocityY) >= jumpPower)
