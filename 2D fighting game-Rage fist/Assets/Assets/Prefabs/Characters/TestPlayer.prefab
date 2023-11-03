@@ -317,7 +317,7 @@ MonoBehaviour:
   gravityFalloff: 2
   maxGravityFalloff: 10
   jumpCooldown: 0.5
-  jumpPower: 14
+  jumpPower: 15
   particleSystemJump: {fileID: 3300836020082985808}
 --- !u!114 &5743342596246035012
 MonoBehaviour:
