@@ -941,15 +941,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3552616085079077722, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: InitialModule.startColor.minColor.b
-      value: 0.6037736
+      value: 0.6226415
       objectReference: {fileID: 0}
     - target: {fileID: 3552616085079077722, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: InitialModule.startColor.minColor.g
-      value: 0.6037736
+      value: 0.5750711
       objectReference: {fileID: 0}
     - target: {fileID: 3552616085079077722, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: InitialModule.startColor.minColor.r
-      value: 0.6037736
+      value: 0.4258633
       objectReference: {fileID: 0}
     - target: {fileID: 3803436004386932942, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: m_LocalPosition.x
