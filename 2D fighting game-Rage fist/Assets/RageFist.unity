@@ -648,23 +648,6 @@ MonoBehaviour:
   timeBetweenHits: 0.5
   currentTimeBetweenCombos: 0
   playerAnimator: {fileID: 0}
---- !u!114 &1826087603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826087588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a14e5325e00a842acc91e85b390f82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentHp: 0
-  maxHp: 10
-  damageTaken: 0
-  shieldDmgReducer: 25
-  damageDealt: 1
 --- !u!1 &1883476639
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,31 +793,13 @@ GameObject:
   - component: {fileID: 1967143052}
   - component: {fileID: 1967143051}
   - component: {fileID: 1967143050}
-  - component: {fileID: 1967143049}
   m_Layer: 0
   m_Name: damager (deals damage!)
-  m_TagString: damage
+  m_TagString: DamagePlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1967143049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1967143048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a14e5325e00a842acc91e85b390f82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentHp: 0
-  maxHp: 10
-  damageTaken: 0
-  shieldDmgReducer: 25
-  damageDealt: 1
 --- !u!50 &1967143050
 Rigidbody2D:
   serializedVersion: 4
@@ -950,7 +915,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1186,6 +1151,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: currentHp
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: plrVelocity
       value: 
       objectReference: {fileID: 2107032015}
@@ -1206,9 +1175,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2955080408283048822, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1826087594}
-    - targetCorrespondingSourceObject: {fileID: 2955080408283048822, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1826087603}
   m_SourcePrefab: {fileID: 100100000, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
 --- !u!1001 &1798209138273996498
 PrefabInstance:
@@ -1301,9 +1267,9 @@ SceneRoots:
   - {fileID: 1798209138273996498}
   - {fileID: 1229119423}
   - {fileID: 1578739460}
+  - {fileID: 1967143053}
   - {fileID: 1883476640}
   - {fileID: 87526296450986944}
-  - {fileID: 1967143053}
   - {fileID: 370934005}
   - {fileID: 1919946815}
   - {fileID: 434398228}

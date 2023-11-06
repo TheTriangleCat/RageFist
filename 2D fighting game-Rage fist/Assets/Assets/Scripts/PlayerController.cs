@@ -1,11 +1,12 @@
-using System;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
+
+/*
+ * This code is to controll the player, we call functions from other scripts to keep everything organized.  
+ * This script is the brain of the controls for the player
+*/
 
 /// <summary>
 ///  Documentation on the input system: https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Interactions.html
@@ -23,6 +24,7 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Player Movement
     [Header("Testing stuff (deleat after)")]
     public TextMeshProUGUI plrVelocity;
 
@@ -39,8 +41,11 @@ public class PlayerController : MonoBehaviour
     public float endFriction;
 
     public float playerSpeed;
+    #endregion
 
+    #region Jumping
     [Header("Jumping")]
+
     public LayerMask groundLayer;
 
     public Transform groundCheck;
@@ -68,6 +73,19 @@ public class PlayerController : MonoBehaviour
     public float jumpPower;
 
     [SerializeField] GameObject particleSystemJump;
+    #endregion
+
+    #region Player Health
+    [Header("Player Health")]
+
+    public float currentHp = 0;
+    public float maxHp = 10;
+
+    public float shieldDmgReducer = 25;
+
+    public float damageTaken = 0;
+    public float damageDealt = 1;
+    #endregion
 
     // Input system
     #region Implementing the new input system, we have to do the walking manually by subscribing to it. The jumping is done automatically without subscribing.
@@ -94,10 +112,41 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    // Health system
+    #region Player health points system
+    private void Update()
+    {
+        currentHp -= damageTaken;
+        damageTaken = 0;
+
+        if (currentHp <= 0)
+        {
+            Debug.Log("You died");
+        }
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            damageTaken = damageTaken * 100 / (100 - shieldDmgReducer);
+            Debug.Log(damageTaken);
+        }
+    }
+
+    // Detects if the player has been hit or not
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "DamagePlayer")
+        {
+            //damageTaken = collision.gameObject.GetComponent<HP>().damageDealt;
+        }
+    }
+    #endregion
+
     // Movement system
     #region The movement system. Has walking, jumping, and double jump.
     private void Start()
     {
+        currentHp = maxHp;
+
         ResetJumping();
 
         defaultGravityScale = playerRigidbody.gravityScale;

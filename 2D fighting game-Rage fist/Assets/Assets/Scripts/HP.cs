@@ -12,7 +12,7 @@ public class HP : MonoBehaviour
 
     void Start()
     {
-        currentHp = maxHp;
+
     }
 
     
