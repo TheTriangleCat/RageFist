@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /*
  * This code is to controll the player, we call functions from other scripts to keep everything organized.  
@@ -24,6 +25,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool canMove; // Determines if the player can move, can be changed through other code
+
     #region Player Movement
     [Header("Testing stuff (deleat after)")]
     public TextMeshProUGUI plrVelocity;
@@ -75,18 +78,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject particleSystemJump;
     #endregion
 
-    #region Player Health
-    [Header("Player Health")]
-
-    public float currentHp = 0;
-    public float maxHp = 10;
-
-    public float shieldDmgReducer = 25;
-
-    public float damageTaken = 0;
-    public float damageDealt = 1;
-    #endregion
-
     // Input system
     #region Implementing the new input system, we have to do the walking manually by subscribing to it. The jumping is done automatically without subscribing.
     private void Awake()
@@ -112,41 +103,10 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    // Health system
-    #region Player health points system
-    private void Update()
-    {
-        currentHp -= damageTaken;
-        damageTaken = 0;
-
-        if (currentHp <= 0)
-        {
-            Debug.Log("You died");
-        }
-
-        if (Input.GetKey(KeyCode.F))
-        {
-            damageTaken = damageTaken * 100 / (100 - shieldDmgReducer);
-            Debug.Log(damageTaken);
-        }
-    }
-
-    // Detects if the player has been hit or not
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "DamagePlayer")
-        {
-            //damageTaken = collision.gameObject.GetComponent<HP>().damageDealt;
-        }
-    }
-    #endregion
-
     // Movement system
     #region The movement system. Has walking, jumping, and double jump.
     private void Start()
     {
-        currentHp = maxHp;
-
         ResetJumping();
 
         defaultGravityScale = playerRigidbody.gravityScale;
@@ -156,29 +116,32 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Coroutine for onGround bool so it runs at the same time
-        StartCoroutine(CheckGround());
-
-        // Moving the player (inputs are done manually here)
-        MovePlayer();
-
-        // Jumping
-        if (onGround && jumpKeyHeld && canJump)
+        if (canMove)
         {
-            canJump = false;
-            Jump();
+            // Coroutine for onGround bool so it runs at the same time
+            StartCoroutine(CheckGround());
 
-            Invoke(nameof(ResetJumping), jumpCooldown);
-        }
+            // Moving the player (inputs are done manually here)
+            MovePlayer();
 
-        else if (!onGround && jumpKeyHeld && canDoubleJump && doubleJumpCheck && !playerDoubleJumped) // Double jump
-        {
-            doubleJumpTimes = 1;
+            // Jumping
+            if (onGround && jumpKeyHeld && canJump)
+            {
+                canJump = false;
+                Jump();
 
-            playerDoubleJumped = true;
-            doubleJumpCheck = false;
+                Invoke(nameof(ResetJumping), jumpCooldown);
+            }
 
-            Jump();
+            else if (!onGround && jumpKeyHeld && canDoubleJump && doubleJumpCheck && !playerDoubleJumped) // Double jump
+            {
+                doubleJumpTimes = 1;
+
+                playerDoubleJumped = true;
+                doubleJumpCheck = false;
+
+                Jump();
+            }
         }
     }
     #endregion
