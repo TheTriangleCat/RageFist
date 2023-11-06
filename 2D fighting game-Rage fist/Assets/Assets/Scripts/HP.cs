@@ -8,6 +8,7 @@ public class HP : MonoBehaviour
     public float maxHp = 10;
     public float damageTaken = 0;
     public float shieldDmgReducer = 25;
+    public float damageDealt = 1;
 
     void Start()
     {
@@ -29,4 +30,13 @@ public class HP : MonoBehaviour
         }
 
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "damage")
+        {
+            damageTaken = collision.gameObject.GetComponent<HP>().damageDealt;
+        }
+    }
+
 }
