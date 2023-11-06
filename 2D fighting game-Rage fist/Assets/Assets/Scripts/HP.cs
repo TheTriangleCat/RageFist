@@ -18,6 +18,10 @@ public class HP : MonoBehaviour
     
     void Update()
     {
+
+        currentHp -= damageTaken;
+        damageTaken = 0;
+
         if (currentHp <=0)
         {
             Debug.Log("You died");
