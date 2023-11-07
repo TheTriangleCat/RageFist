@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 7910577641056888705}
   - component: {fileID: 750608332852843971}
   - component: {fileID: 6257768451070778266}
+  - component: {fileID: 883047630229089938}
   - component: {fileID: 5743342596246035012}
   m_Layer: 0
   m_Name: TestPlayer
@@ -303,7 +304,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a14e5325e00a842acc91e85b390f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 0.07438054, b: 0, a: 1}
+    key1: {r: 1, g: 0.5689187, b: 0, a: 1}
+    key2: {r: 1, g: 0.93226594, b: 0, a: 0}
+    key3: {r: 0.0084668165, g: 0.8773585, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 13107
+    ctime1: 32768
+    ctime2: 45875
+    ctime3: 64764
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 1
+    m_ColorSpace: -1
+    m_NumColorKeys: 4
+    m_NumAlphaKeys: 2
+  healthText: {fileID: 0}
   healthBar: {fileID: 0}
+  healthBarFill: {fileID: 0}
   currentHp: 0
   maxHp: 10
   shieldDmgReducer: 25
@@ -339,6 +372,22 @@ MonoBehaviour:
   jumpCooldown: 0.5
   jumpPower: 15
   particleSystemJump: {fileID: 3300836020082985808}
+--- !u!114 &883047630229089938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2955080408283048822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c1804f2c9fe7ff4ba1d6ecfdefd4765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnimator: {fileID: 0}
+  downComboTimeLimit: 1
+  downComboTimeBetweenHits: 0.5
+  timeBetweenDownCombos: 0
 --- !u!114 &5743342596246035012
 MonoBehaviour:
   m_ObjectHideFlags: 0

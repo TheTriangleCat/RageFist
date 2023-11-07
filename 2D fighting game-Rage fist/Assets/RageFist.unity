@@ -185,8 +185,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -29.288021, y: -30}
+  m_AnchoredPosition: {x: -0.0012817383, y: 0}
+  m_SizeDelta: {x: -29.283, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &238751202
 MonoBehaviour:
@@ -208,7 +208,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -445,7 +445,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -615.67566, y: 432.95773}
+  m_AnchoredPosition: {x: -597, y: 451}
   m_SizeDelta: {x: 635.803, y: 111.112}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &447192849
@@ -953,75 +953,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771956136}
   m_CullTransparentMesh: 1
---- !u!1 &1826087588 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2955080408283048822, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
-  m_PrefabInstance: {fileID: 87526296450986944}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1826087594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826087588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cced764c71b3df489f81b6c071b0b1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  comboTimeLimit: 1
-  timeBetweenHits: 0.5
-  currentTimeBetweenCombos: 0
-  playerAnimator: {fileID: 0}
---- !u!114 &1826087595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826087588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51691c17ba2cdf24a888ccf717903b2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  comboTimeLimit: 1
-  timeBetweenHits: 0.5
-  currentTimeBetweenCombos: 0
-  playerAnimator: {fileID: 0}
---- !u!114 &1826087596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826087588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e90b2e5e46bc4c746a0c7d14fe6a3d61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  comboTimeLimit: 1
-  timeBetweenHits: 0.5
-  currentTimeBetweenCombos: 0
-  playerAnimator: {fileID: 0}
---- !u!114 &1826087597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826087588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64c49a9b21e484c40a0024ff6276f532, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  comboTimeLimit: 1
-  timeBetweenHits: 0.5
-  currentTimeBetweenCombos: 0
-  playerAnimator: {fileID: 0}
 --- !u!1 &1883476639
 GameObject:
   m_ObjectHideFlags: 0
@@ -1328,8 +1259,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a14e5325e00a842acc91e85b390f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
   healthText: {fileID: 0}
   healthBar: {fileID: 0}
+  healthBarFill: {fileID: 0}
   currentHp: 0
   maxHp: 0
   shieldDmgReducer: 0
@@ -1485,6 +1447,10 @@ PrefabInstance:
       propertyPath: healthText
       value: 
       objectReference: {fileID: 1771956138}
+    - target: {fileID: 750608332852843971, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: healthBarFill
+      value: 
+      objectReference: {fileID: 238751202}
     - target: {fileID: 2955080408283048822, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: m_Name
       value: TestPlayer
@@ -1554,6 +1520,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: boxSize.y
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 447192847}
@@ -1569,23 +1539,15 @@ PrefabInstance:
       propertyPath: healthAmountUI
       value: 
       objectReference: {fileID: 238751202}
+    - target: {fileID: 8212038419625400822, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5016
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2150764959824485377, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2955080408283048822, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1826087597}
-    - targetCorrespondingSourceObject: {fileID: 2955080408283048822, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1826087596}
-    - targetCorrespondingSourceObject: {fileID: 2955080408283048822, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1826087595}
-    - targetCorrespondingSourceObject: {fileID: 2955080408283048822, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1826087594}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
 --- !u!1001 &1798209138273996498
 PrefabInstance:

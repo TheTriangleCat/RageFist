@@ -17,8 +17,10 @@ public class HP : MonoBehaviour
 {
     #region Player Health
     [Header("Player Health")]
+    public Gradient healthGradient;
     [SerializeField] TextMeshProUGUI healthText;
     [SerializeField] GameObject healthBar;
+    [SerializeField] Image healthBarFill;
 
     public float currentHp; // Reference variable, current HP sets to max hp at the beginning of the game
     public float maxHp;
@@ -40,6 +42,8 @@ public class HP : MonoBehaviour
     {
         if (gameObject.tag != "DamagePlayer")
         {
+            healthBarFill.color = healthGradient.Evaluate(healthBar.GetComponent<Slider>().normalizedValue);
+
             currentHp -= damageTaken;
             damageTaken = 0;
 
@@ -54,7 +58,7 @@ public class HP : MonoBehaviour
 
             else if (currentHp > maxHp) 
             {
-                Debug.LogWarning("Not suppose to happen, either someone is hacking or the devs are changing it for testing purposes only.");
+                currentHp = maxHp; // Prevent hacking localy so hackers can't change the health
             }
 
             if (Input.GetKey(KeyCode.F))
