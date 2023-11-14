@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -113,38 +114,41 @@ public class AttackSystem : MonoBehaviour
             downComboCount = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && currentTimeBetweenDownCombos <= Time.time)
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            if (Input.GetKey(KeyCode.S))
+            if (currentTimeBetweenDownCombos <= Time.time)
             {
-                // set on next combo
-                downComboCount++;
-
-                currentTimeBetweenDownCombos = Time.time + downComboTimeBetweenHits;
-
-                switch (downComboCount)
+                if (Input.GetKey(KeyCode.S))
                 {
-                    case 1:
-                        Debug.Log("D1");
-                        //playerAnimator.SetTrigger("Attack1");
-                        break;
-                    case 2:
-                        //playerAnimator.SetTrigger("Attack2");
-                        Debug.Log("D2");
-                        break;
-                    case 3:
-                        //playerAnimator.SetTrigger("Attack3");
-                        Debug.Log("D3");
-                        break;
-                    default:
-                        downComboCount = 0;
-                        // Do same for more combos
-                        break;
-                }
-            }
+                    // set on next combo
+                    downComboCount++;
 
-            // update the time of the last combo input
-            downComboLastComboTime = Time.time;
+                    currentTimeBetweenDownCombos = Time.time + downComboTimeBetweenHits;
+
+                    switch (downComboCount)
+                    {
+                        case 1:
+                            Debug.Log("D1");
+                            //playerAnimator.SetTrigger("Attack1");
+                            break;
+                        case 2:
+                            //playerAnimator.SetTrigger("Attack2");
+                            Debug.Log("D2");
+                            break;
+                        case 3:
+                            //playerAnimator.SetTrigger("Attack3");
+                            Debug.Log("D3");
+                            break;
+                        default:
+                            downComboCount = 0;
+                            // Do same for more combos
+                            break;
+                    }
+                }
+
+                // update the time of the last combo input
+                downComboLastComboTime = Time.time;
+            }
         }
     }
 
@@ -158,38 +162,41 @@ public class AttackSystem : MonoBehaviour
             upComboCount = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && currentTimeBetweenUpCombos <= Time.time)
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            if (Input.GetKey(KeyCode.W))
+            if (currentTimeBetweenUpCombos <= Time.time)
             {
-                // set on next combo
-                upComboCount++;
-
-                currentTimeBetweenUpCombos = Time.time + timeBetweenUpComboHits;
-
-                switch (upComboCount)
+                if (Input.GetKey(KeyCode.W))
                 {
-                    case 1:
-                        Debug.Log("U1");
-                        //playerAnimator.SetTrigger("Attack1");
-                        break;
-                    case 2:
-                        //playerAnimator.SetTrigger("Attack2");
-                        Debug.Log("U2");
-                        break;
-                    case 3:
-                        //playerAnimator.SetTrigger("Attack3");
-                        Debug.Log("U3");
-                        break;
-                    default:
-                        upComboCount = 0;
-                        // Do same for more combos
-                        break;
-                }
-            }
+                    // set on next combo
+                    upComboCount++;
 
-            // update the time of the last combo input
-            lastUpComboTime = Time.time;
+                    currentTimeBetweenUpCombos = Time.time + timeBetweenUpComboHits;
+
+                    switch (upComboCount)
+                    {
+                        case 1:
+                            Debug.Log("U1");
+                            //playerAnimator.SetTrigger("Attack1");
+                            break;
+                        case 2:
+                            //playerAnimator.SetTrigger("Attack2");
+                            Debug.Log("U2");
+                            break;
+                        case 3:
+                            //playerAnimator.SetTrigger("Attack3");
+                            Debug.Log("U3");
+                            break;
+                        default:
+                            upComboCount = 0;
+                            // Do same for more combos
+                            break;
+                    }
+                }
+
+                // update the time of the last combo input
+                lastUpComboTime = Time.time;
+            }
         }
     }
 
@@ -203,38 +210,41 @@ public class AttackSystem : MonoBehaviour
             sideComboCount = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && currentTimeBetweenSideCombos <= Time.time)
+        if ( Input.GetKeyDown(KeyCode.K)) 
         {
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
+            if (currentTimeBetweenSideCombos <= Time.time)
             {
-                // set on next combo
-                sideComboCount++;
-
-                currentTimeBetweenSideCombos = Time.time + timeBetweenSideComboHits;
-
-                switch (sideComboCount)
+                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
                 {
-                    case 1:
-                        Debug.Log("S1");
-                        //playerAnimator.SetTrigger("Attack1");
-                        break;
-                    case 2:
-                        //playerAnimator.SetTrigger("Attack2");
-                        Debug.Log("S2");
-                        break;
-                    case 3:
-                        //playerAnimator.SetTrigger("Attack3");
-                        Debug.Log("S3");
-                        break;
-                    default:
-                        sideComboCount = 0;
-                        // Do same for more combos
-                        break;
-                }
-            }
+                    // set on next combo
+                    sideComboCount++;
 
-            // update the time of the last combo input
-            lastSideComboTime = Time.time;
+                    currentTimeBetweenSideCombos = Time.time + timeBetweenSideComboHits;
+
+                    switch (sideComboCount)
+                    {
+                        case 1:
+                            Debug.Log("S1");
+                            //playerAnimator.SetTrigger("Attack1");
+                            break;
+                        case 2:
+                            //playerAnimator.SetTrigger("Attack2");
+                            Debug.Log("S2");
+                            break;
+                        case 3:
+                            //playerAnimator.SetTrigger("Attack3");
+                            Debug.Log("S3");
+                            break;
+                        default:
+                            sideComboCount = 0;
+                            // Do same for more combos
+                            break;
+                    }
+                }
+
+                // update the time of the last combo input
+                lastSideComboTime = Time.time;
+            }
         }
     }
     #endregion
