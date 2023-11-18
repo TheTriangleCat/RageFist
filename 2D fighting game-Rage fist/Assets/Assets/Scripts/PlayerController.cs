@@ -146,9 +146,10 @@ public class PlayerController : MonoBehaviour
 
         // Applying the velocity to rigidbody (we only set the variable "playerVelocity", not the actual velocity)
         playerRigidbody.velocity = playerVelocity;
+        Debug.Log(playerVelocity);
     }
     #endregion
-
+    
     // Functions
     #region Functions for the movement, the jumping one is detecting if the player is holding it. We adding the jumping force at FixedUpdate.
     // Walking
@@ -226,7 +227,7 @@ public class PlayerController : MonoBehaviour
             playerRigidbody.gravityScale = maxGravityFalloff;
         }
     }
-
+    
     public void JumpInput(InputAction.CallbackContext context) // We add force to jump separatly because the input system doesn't have a key held down so we get crafty here and do it in FixedUpdate
     {
         if (context.performed)
