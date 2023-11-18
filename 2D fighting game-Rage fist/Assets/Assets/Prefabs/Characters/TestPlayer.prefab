@@ -234,7 +234,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 7df54cfc0900ab2408136c3e42b689e3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -254,7 +254,6 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2955080408283048822}
   m_Enabled: 1
-  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 7df54cfc0900ab2408136c3e42b689e3, type: 2}
   m_IncludeLayers:
@@ -278,8 +277,7 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -290,6 +288,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &750608332852843971
@@ -364,11 +363,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   groundCheck: {fileID: 8212038419625400822}
-  boxSize: {x: 0.62, y: 0.02}
+  boxSize: {x: 0.62, y: 0.005}
   canDoubleJump: 1
   jumpingParticle: {fileID: 3052360390099876697, guid: 82f047053ee7cfb4aa1015a0ee606ad8, type: 3}
   gravityFalloff: 2
-  maxGravityFalloff: 10
+  maxGravityFalloff: 3
   jumpCooldown: 0.5
   jumpPower: 15
   particleSystemJump: {fileID: 3300836020082985808}
@@ -385,9 +384,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerAnimator: {fileID: 0}
+  attackTimeLimit: 1
+  timeBetweenAttackHits: 0.5
+  currentTimeBetweenAttack: 0
   downComboTimeLimit: 1
   downComboTimeBetweenHits: 0.5
-  timeBetweenDownCombos: 0
+  currentTimeBetweenDownCombos: 0
+  upComboTimeLimit: 1
+  timeBetweenUpComboHits: 0.5
+  currentTimeBetweenUpCombos: 0
+  sideComboTimeLimit: 1
+  timeBetweenSideComboHits: 0.5
+  currentTimeBetweenSideCombos: 0
 --- !u!114 &5743342596246035012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +424,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 4f0d4a0e-a8f5-42c7-9b31-9be69edf9bdd
-    m_ActionName: 'Player/Walking[/Keyboard/a,/Keyboard/d]'
+    m_ActionName: Player/Walking[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6257768451070778266}
@@ -432,39 +440,39 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 2b6f6f55-c7c5-4612-a82c-99f932dd68ce
-    m_ActionName: 'Player/Jumping[/Keyboard/space]'
+    m_ActionName: Player/Jumping[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: e90640b2-2d27-48c4-bf93-501e063fe2e4
-    m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
+    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 4ee273fc-c554-4804-873f-7bc3e0867d8c
-    m_ActionName: 'UI/Submit[/Keyboard/enter]'
+    m_ActionName: UI/Submit[/Keyboard/enter]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: e3ffc363-aa19-41ad-abb4-0c6340985a58
-    m_ActionName: 'UI/Cancel[/Keyboard/escape]'
+    m_ActionName: UI/Cancel[/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 20ce85de-9ed7-4693-b1e7-7a89430118c3
-    m_ActionName: 'UI/Point[/Mouse/position]'
+    m_ActionName: UI/Point[/Mouse/position]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 26874b39-688e-4635-8042-9b34b4426799
-    m_ActionName: 'UI/Click[/Mouse/leftButton]'
+    m_ActionName: UI/Click[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: ca30baf6-ff18-461d-8e4b-31348ec2d136
-    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 25afd40f-dc00-4c07-bf54-c75a864cd2a5
-    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 8901f3c1-c63f-4399-917d-6b1c84984d44
-    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 39190bc6-ff7d-4070-86c5-b678b19565e6
@@ -488,7 +496,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 2bfbac8b-3bbe-471a-8cae-6223c5a9b167
-    m_ActionName: 'Player/DoubleJump[/Keyboard/space]'
+    m_ActionName: Player/DoubleJump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

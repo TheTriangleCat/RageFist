@@ -143,6 +143,9 @@ public class PlayerController : MonoBehaviour
                 Jump();
             }
         }
+
+        // Applying the velocity to rigidbody (we only set the variable "playerVelocity", not the actual velocity)
+        playerRigidbody.velocity = playerVelocity;
     }
     #endregion
 
@@ -159,45 +162,45 @@ public class PlayerController : MonoBehaviour
         // Flipping the player
         if (moveDirection.x == 1f)
         {
-            playerRigidbody.velocityX += startFriction;
+            playerVelocity.x += startFriction;
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
 
         else if (moveDirection.x == -1f)
         {
-            playerRigidbody.velocityX -= startFriction;
+            playerVelocity.x -= startFriction;
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
 
         // End friction for left side of player
         if (transform.rotation.eulerAngles.y == 180f && moveDirection.x == 0f)
         {
-            playerRigidbody.velocityX += endFriction;
+            playerVelocity.x += endFriction;
 
-            if (playerRigidbody.velocityX >= 0f)
+            if (playerVelocity.x >= 0f)
             {
-                playerRigidbody.velocityX = 0f;
+                playerVelocity.x = 0f;
             }
         }
 
         // End friction for right side of player
         if (transform.rotation.eulerAngles.y == 0f && moveDirection.x == 0f)
         {
-            playerRigidbody.velocityX -= endFriction;
+            playerVelocity.x -= endFriction;
 
-            if (playerRigidbody.velocityX <= 0f)
+            if (playerVelocity.x <= 0f)
             {
-                playerRigidbody.velocityX = 0f;
+                playerVelocity.x = 0f;
             }
         }
 
         // Limit the walking velocity
-        Vector2 flatVel = new Vector2(playerRigidbody.velocityX, 0f);
+        Vector2 flatVel = new Vector2(playerVelocity.x, 0f);
 
         if (flatVel.magnitude > playerSpeed)
         {
             Vector2 limitedVel = flatVel.normalized * playerSpeed;
-            playerRigidbody.velocityX = limitedVel.x;
+            playerVelocity.x = limitedVel.x;
         }
     }
 
@@ -207,12 +210,12 @@ public class PlayerController : MonoBehaviour
     {
         // Adding force to jumping
         playerRigidbody.gravityScale = defaultGravityScale;
-        playerRigidbody.velocityY = jumpPower;
+        playerVelocity.y = jumpPower;
 
         particleSystemJump.GetComponent<ParticleSystem>().Play(true);
 
         // Increasing gravity when the player is falling
-        if (Mathf.Abs(playerRigidbody.velocityY) >= jumpPower)
+        if (Mathf.Abs(playerVelocity.y) >= jumpPower)
         {
             playerRigidbody.gravityScale += gravityFalloff;
         }
