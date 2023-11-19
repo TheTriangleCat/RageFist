@@ -1519,6 +1519,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: healthBar
       value: 
@@ -1533,12 +1537,20 @@ PrefabInstance:
       objectReference: {fileID: 2107032015}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: jumpCooldown
-      value: 0.3
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: gravityFalloff
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: healthAmountUI
       value: 
       objectReference: {fileID: 238751202}
+    - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: maxGravityFalloff
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6627755252650724224, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: m_GravityScale
       value: 1
