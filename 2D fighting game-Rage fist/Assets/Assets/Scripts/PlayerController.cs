@@ -217,6 +217,11 @@ public class PlayerController : MonoBehaviour
     
     public void JumpInput(InputAction.CallbackContext context) // We add force to jump separatly because the input system doesn't have a key held down so we get crafty here and do it in FixedUpdate
     {
+        if (context.action.interactions.Contains(""))
+        {
+
+        }
+
         if (context.performed)
         {
             jumpKeyHeld = true;
