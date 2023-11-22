@@ -37,7 +37,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""SingleJump"",
+                    ""name"": ""Jumping"",
                     ""type"": ""Button"",
                     ""id"": ""2b6f6f55-c7c5-4612-a82c-99f932dd68ce"",
                     ""expectedControlType"": ""Button"",
@@ -87,7 +87,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SingleJump"",
+                    ""action"": ""Jumping"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -676,7 +676,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Walking = m_Player.FindAction("Walking", throwIfNotFound: true);
-        m_Player_SingleJump = m_Player.FindAction("SingleJump", throwIfNotFound: true);
+        m_Player_Jumping = m_Player.FindAction("Jumping", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -751,13 +751,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Walking;
-    private readonly InputAction m_Player_SingleJump;
+    private readonly InputAction m_Player_Jumping;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Walking => m_Wrapper.m_Player_Walking;
-        public InputAction @SingleJump => m_Wrapper.m_Player_SingleJump;
+        public InputAction @Jumping => m_Wrapper.m_Player_Jumping;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -770,9 +770,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Walking.started += instance.OnWalking;
             @Walking.performed += instance.OnWalking;
             @Walking.canceled += instance.OnWalking;
-            @SingleJump.started += instance.OnSingleJump;
-            @SingleJump.performed += instance.OnSingleJump;
-            @SingleJump.canceled += instance.OnSingleJump;
+            @Jumping.started += instance.OnJumping;
+            @Jumping.performed += instance.OnJumping;
+            @Jumping.canceled += instance.OnJumping;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -780,9 +780,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Walking.started -= instance.OnWalking;
             @Walking.performed -= instance.OnWalking;
             @Walking.canceled -= instance.OnWalking;
-            @SingleJump.started -= instance.OnSingleJump;
-            @SingleJump.performed -= instance.OnSingleJump;
-            @SingleJump.canceled -= instance.OnSingleJump;
+            @Jumping.started -= instance.OnJumping;
+            @Jumping.performed -= instance.OnJumping;
+            @Jumping.canceled -= instance.OnJumping;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -966,7 +966,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnWalking(InputAction.CallbackContext context);
-        void OnSingleJump(InputAction.CallbackContext context);
+        void OnJumping(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

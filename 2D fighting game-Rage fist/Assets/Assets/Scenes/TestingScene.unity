@@ -1532,11 +1532,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: m_ActionEvents.Array.data[12].m_ActionId
-      value: efe9d17c-c021-44a9-a25c-d32e70f8bffd
+      value: b3ca7218-e58a-4d6a-b5f7-66428d8d5285
       objectReference: {fileID: 0}
     - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: m_ActionEvents.Array.data[12].m_ActionName
@@ -1596,7 +1596,7 @@ PrefabInstance:
       objectReference: {fileID: 2107032015}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: jumpCooldown
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: gravityFalloff

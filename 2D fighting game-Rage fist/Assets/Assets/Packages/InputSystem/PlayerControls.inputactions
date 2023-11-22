@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "SingleJump",
+                    "name": "Jumping",
                     "type": "Button",
                     "id": "2b6f6f55-c7c5-4612-a82c-99f932dd68ce",
                     "expectedControlType": "Button",
@@ -65,7 +65,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "SingleJump",
+                    "action": "Jumping",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

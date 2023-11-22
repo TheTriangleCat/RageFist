@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        if (context.performed && !onGround && jumpKeyTapped && canDoubleJump)
+        if (context.performed && !onGround && jumpKeyTapped && canDoubleJump) // small bug where the player can dbj if it hits a platform while in the air pls fixxx
         {
             jumpKeyTapped = false;
             Jump();
@@ -242,7 +242,7 @@ public class PlayerController : MonoBehaviour
     // Coroutine for ground checking
     private IEnumerator CheckGround()
     {
-        onGround = Physics2D.OverlapBox(groundCheck.position, boxSize, 0f, groundLayer);
+        onGround = Physics2D.OverlapBox(groundCheck.position, boxSize, 0f, groundLayer) && playerRigidbody.velocity.y == 0;
 
         // Ground detection
         if (onGround)
