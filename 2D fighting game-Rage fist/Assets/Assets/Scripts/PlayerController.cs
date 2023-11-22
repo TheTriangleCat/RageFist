@@ -58,10 +58,18 @@ public class PlayerController : MonoBehaviour
 
     private bool onGround;
 
-    private bool jumpKeyHeld;
+    private bool jumpKeyHeld; // We change it in check ground cus its a coroutine and we make seperat of jumpAxis because its less confusing
+    private bool jumpKeyTapped; // For double jump 
+   
     private bool canJump; // This is to check if the player has landed and is ready to jump so it can't be spammed if the player holds key down
-    public bool canDoubleJump; // Checks wether if the player can double jump or no
+    
     public float jumpCooldown; // Set to 0 if you don't want any cooldown
+
+    public bool canDoubleJump; // Checks wether if the player can double jump or no
+    public float doubleJumpPressTime;
+    private float timeSinceLastJump;
+    private float lastJumpTime; // The time betweem the last jump and the double jump
+
     public float jumpPower;
     public ParticleSystem jumpingParticle;
 
@@ -79,11 +87,8 @@ public class PlayerController : MonoBehaviour
     {
         playerControls = new PlayerControls();
 
-        // For walking only
-        playerControls.Player.Walking.performed += ctx => moveDirection = ctx.ReadValue<Vector2>();
-        playerControls.Player.Walking.canceled += ctx => moveDirection = Vector2.zero;
-        playerControls.Player.Walking.performed += ctx => moveDirection = ctx.ReadValue<Vector2>();
-        playerControls.Player.Walking.canceled += ctx => moveDirection = Vector2.zero;
+        playerControls.Player.Walking.performed += context => moveDirection = context.ReadValue<Vector2>();
+        playerControls.Player.Walking.canceled += context => moveDirection = Vector2.zero;
     }
     
     private void OnEnable()
@@ -101,7 +106,7 @@ public class PlayerController : MonoBehaviour
     #region The movement system. Has walking, jumping, and double jump.
     private void Start()
     {
-        canJump = true;
+        ResetCanJump();
 
         defaultGravityScale = playerRigidbody.gravityScale;
 
@@ -118,19 +123,7 @@ public class PlayerController : MonoBehaviour
             // Moving the player (inputs are done manually here)
             MovePlayer();
 
-            // Jumping
-            if (onGround && jumpKeyHeld && canJump)
-            {
-                canJump = false;
-                Jump();
-
-                // Double jump
-                if (canDoubleJump)
-                {
-                    Debug.Log("Dkddkdkk");
-                    Jump();
-                }
-            }
+            // Jumping is done in jumpInput function for the new input system
         }   
 
         // Applying the velocity to rigidbody (we only set the variable "playerVelocity", not the actual velocity)
@@ -194,11 +187,27 @@ public class PlayerController : MonoBehaviour
     }
 
     // Jumping
-    #region Jumping (3 functions because the SingleJumpInput and other one is the one detecting input from the new input system and we check if the player can jump then we acll the function)
+    #region Jumping
+    public void JumpInput(InputAction.CallbackContext context)
+    {
+        if (context.performed && canJump && onGround)    
+        {
+            Jump();
+        }
+
+        if (context.performed && !onGround && jumpKeyTapped && canDoubleJump)
+        {
+            jumpKeyTapped = false;
+            Jump();
+        }
+    }
+
     private void Jump()
     {
+        canJump = false;
+
         // Adding force to jumping
-        playerVelocity.y = jumpPower;
+        playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, jumpPower);
 
         particleSystemJump.GetComponent<ParticleSystem>().Play(true);
 
@@ -212,41 +221,13 @@ public class PlayerController : MonoBehaviour
         if (playerRigidbody.gravityScale > maxGravityFalloff)
         {
             playerRigidbody.gravityScale = maxGravityFalloff;
-        }
+        }   
     }
-    
-    public void JumpInput(InputAction.CallbackContext context) // We add force to jump separatly because the input system doesn't have a key held down so we get crafty here and do it in FixedUpdate
+
+    private void ResetCanJump()
     {
-        if (context.action.interactions.Contains(""))
-        {
-
-        }
-
-        if (context.performed)
-        {
-            jumpKeyHeld = true;
-        }
-
-        else if (context.canceled)        
-        {
-            jumpKeyHeld = false;
-        }
-    }
-    #endregion
-
-    // Check ground coroutine
-    IEnumerator CheckGround()
-    {
-        onGround = Physics2D.OverlapBox(groundCheck.position, boxSize, 0f, groundLayer);
-
-        // Setting some stuff for double jump
-        if (onGround)
-        {
-            playerRigidbody.gravityScale = defaultGravityScale;
-            canJump = true;
-        }
-
-        yield return onGround;
+        canJump = true;
+        jumpKeyTapped = true;
     }
     #endregion
 
@@ -256,4 +237,25 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(groundCheck.position, boxSize);
     }
+
+    #region Coroutines
+    // Coroutine for ground checking
+    private IEnumerator CheckGround()
+    {
+        onGround = Physics2D.OverlapBox(groundCheck.position, boxSize, 0f, groundLayer);
+
+        // Ground detection
+        if (onGround)
+        {
+            playerRigidbody.gravityScale = defaultGravityScale;
+            
+            ResetCanJump();
+            Invoke(nameof(ResetCanJump), jumpCooldown);
+        }
+
+        yield return onGround;
+    }
+    #endregion
+
+    #endregion
 }

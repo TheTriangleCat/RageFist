@@ -15,12 +15,12 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jumping",
+                    "name": "SingleJump",
                     "type": "Button",
                     "id": "2b6f6f55-c7c5-4612-a82c-99f932dd68ce",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(pressPoint=0.5),Tap(duration=0.2,pressPoint=0.5)",
+                    "interactions": "",
                     "initialStateCheck": true
                 }
             ],
@@ -60,12 +60,12 @@
                 },
                 {
                     "name": "",
-                    "id": "50a66bc8-1c70-4333-b4e5-7488fd84d9e6",
+                    "id": "743308cc-db2c-4c6b-8e70-89628a8dbfcc",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Jumping",
+                    "action": "SingleJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

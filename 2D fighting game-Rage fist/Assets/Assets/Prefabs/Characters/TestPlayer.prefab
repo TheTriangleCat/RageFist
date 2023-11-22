@@ -365,11 +365,11 @@ MonoBehaviour:
   groundCheck: {fileID: 8212038419625400822}
   boxSize: {x: 0.62, y: 0.005}
   canDoubleJump: 1
+  jumpCooldown: 0.5
+  jumpPower: 15
   jumpingParticle: {fileID: 3052360390099876697, guid: 82f047053ee7cfb4aa1015a0ee606ad8, type: 3}
   gravityFalloff: 2
   maxGravityFalloff: 3
-  jumpCooldown: 0.5
-  jumpPower: 15
   particleSystemJump: {fileID: 3300836020082985808}
 --- !u!114 &883047630229089938
 MonoBehaviour:
@@ -438,7 +438,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_ActionId: 2b6f6f55-c7c5-4612-a82c-99f932dd68ce
     m_ActionName: Player/Jumping[/Keyboard/space]
   - m_PersistentCalls:
@@ -481,22 +481,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 73b76a91-a41c-40c1-942b-89e31c825cb0
     m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6257768451070778266}
-        m_TargetAssemblyTypeName: Physics, Assembly-CSharp
-        m_MethodName: e
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 2bfbac8b-3bbe-471a-8cae-6223c5a9b167
-    m_ActionName: Player/DoubleJump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

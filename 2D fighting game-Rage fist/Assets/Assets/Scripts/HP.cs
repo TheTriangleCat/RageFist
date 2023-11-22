@@ -50,21 +50,24 @@ public class HP : MonoBehaviour
             healthText.text = Mathf.RoundToInt(currentHp / maxHp * 100) + "%";
             healthBar.GetComponent<Slider>().value = currentHp / maxHp;
 
-            if (currentHp <= 0)
+            if (currentHp != 0)
             {
-                Debug.Log("You died");
-                currentHp = 0;
-            }
+                if (currentHp <= 0)
+                {
+                    Debug.Log("You died");
+                    currentHp = 0;
+                }
 
-            else if (currentHp > maxHp) 
-            {
-                currentHp = maxHp; // Prevent hacking localy so hackers can't change the health
-            }
+                else if (currentHp > maxHp) 
+                {
+                    currentHp = maxHp; // Prevent hacking localy so hackers can't change the health
+                }
 
-            if (Input.GetKey(KeyCode.F))
-            {
-                damageTaken = damageTaken * 100 / (100 - shieldDmgReducer);
-                Debug.Log(damageTaken);
+                if (Input.GetKey(KeyCode.F))
+                {
+                    damageTaken = damageTaken * 100 / (100 - shieldDmgReducer);
+                    Debug.Log(damageTaken);
+                }
             }
         }
     }

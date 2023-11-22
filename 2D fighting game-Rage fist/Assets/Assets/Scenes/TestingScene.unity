@@ -954,6 +954,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771956136}
   m_CullTransparentMesh: 1
+--- !u!114 &1779606319 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+  m_PrefabInstance: {fileID: 87526296450986944}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a90a206e909c74e820bb8b34a43b4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1883476639
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,7 +1127,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967143048}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1520,8 +1531,56 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_ActionId
+      value: efe9d17c-c021-44a9-a25c-d32e70f8bffd
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_ActionName
+      value: Player/DoubleJump[/Keyboard/space]
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1779606319}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: JumpInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: JumpInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743342596246035012, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: healthBar
@@ -1537,7 +1596,7 @@ PrefabInstance:
       objectReference: {fileID: 2107032015}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: jumpCooldown
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: gravityFalloff
@@ -1549,7 +1608,7 @@ PrefabInstance:
       objectReference: {fileID: 238751202}
     - target: {fileID: 6257768451070778266, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: maxGravityFalloff
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6627755252650724224, guid: 94ef405430c04204e9684d0add9d5f3f, type: 3}
       propertyPath: m_GravityScale
