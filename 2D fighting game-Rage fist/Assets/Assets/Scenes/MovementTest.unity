@@ -876,7 +876,7 @@ ParticleSystem:
         m_RotationOrder: 4
   ShapeModule:
     serializedVersion: 6
-    enabled: 1
+    enabled: 0
     type: 19
     angle: 25
     length: 5
@@ -1083,7 +1083,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 55.55
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4977,14 +4977,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 228960499}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.051044155, y: 0.705262, z: 0.051044207, w: 0.70526206}
+  m_LocalRotation: {x: -0.023193834, y: 0.70672625, z: 0.023193883, w: 0.7067263}
   m_LocalPosition: {x: -5.24, y: -0.69, z: -0.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1724774980}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -8.279, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: -3.759, y: 90, z: 0}
 --- !u!1 &238751200
 GameObject:
   m_ObjectHideFlags: 0
