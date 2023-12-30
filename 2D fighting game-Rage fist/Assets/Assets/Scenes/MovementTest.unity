@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 228960501}
   - component: {fileID: 228960500}
   m_Layer: 0
-  m_Name: Shooting
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4977,14 +4977,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 228960499}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.65328133, y: 0.27059838, z: -0.27059838, w: 0.6532814}
+  m_LocalRotation: {x: -0.051044155, y: 0.705262, z: 0.051044207, w: 0.70526206}
   m_LocalPosition: {x: -5.24, y: -0.69, z: -0.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1724774980}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -45, y: 90, z: -90}
+  m_LocalEulerAnglesHint: {x: -8.279, y: 90, z: 0}
 --- !u!1 &238751200
 GameObject:
   m_ObjectHideFlags: 0
@@ -5277,7 +5277,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -561, y: 288}
+  m_AnchoredPosition: {x: -561, y: 387}
   m_SizeDelta: {x: 635.803, y: 111.112}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &447192849
@@ -10767,7 +10767,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -11061,7 +11061,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -561, y: -360}
+  m_AnchoredPosition: {x: -561, y: -427}
   m_SizeDelta: {x: 1809.523, y: 140.661}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2107032015
