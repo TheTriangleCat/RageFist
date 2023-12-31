@@ -46,12 +46,14 @@ public class GunController : MonoBehaviour
         playerControls.Disable();
     }
 
+
     private void CreateBullet(ProjectileTypes bulletType)
     {
         switch (bulletType)
         {
             case ProjectileTypes.Bullet:
                 Instantiate(bullet, transform.position, transform.rotation);
+                bullet.GetComponent<ParticleSystem>().Play();
 
                 break;
 
