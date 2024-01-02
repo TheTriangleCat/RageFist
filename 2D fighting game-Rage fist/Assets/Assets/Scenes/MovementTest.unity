@@ -1495,6 +1495,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2525554959342690371, guid: 0695d90fe1e1e6c419a54121c1fe1b8b, type: 3}
+      propertyPath: bulletSpread
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3449551161959671797, guid: 0695d90fe1e1e6c419a54121c1fe1b8b, type: 3}
       propertyPath: m_Name
       value: TestPlayer

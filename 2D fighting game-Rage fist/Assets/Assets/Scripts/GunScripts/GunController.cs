@@ -34,6 +34,7 @@ public class GunController : MonoBehaviour
 
     [Header("Gun settings")] // Some settings are found in the enums at the top of the script. Settings will be set to 0 if no gun is being held 
     public GameObject bulletProjectile;
+    public float bulletSpread;
     private GameObject newBulletProjectile;
 
     public float bulletSpeed;
@@ -91,8 +92,12 @@ public class GunController : MonoBehaviour
         switch (projectileType)
         {
             case ProjectileTypes.Bullet:
-                newBulletProjectile = Instantiate(bulletProjectile, muzzle.transform.position, gun.transform.rotation);
-                newBulletProjectile.transform.rotation = gun.transform.rotation;
+               
+                newBulletProjectile = Instantiate(
+                    bulletProjectile,
+                    muzzle.transform.position,
+                    Quaternion.Euler(0f, 0f, gun.transform.rotation.z + Random.Range(0f, bulletSpread))
+                );
 
                 break;
 
