@@ -53,6 +53,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GunPointer"",
+                    ""type"": ""Value"",
+                    ""id"": ""b62b8acb-ff56-438a-94f7-7f4b869df157"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -108,6 +117,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ac04a99c-0d8e-4d53-b7a8-c3a1ed752d2f"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""GunPointer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -698,6 +718,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Walking = m_Player.FindAction("Walking", throwIfNotFound: true);
         m_Player_Jumping = m_Player.FindAction("Jumping", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+        m_Player_GunPointer = m_Player.FindAction("GunPointer", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -774,6 +795,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Walking;
     private readonly InputAction m_Player_Jumping;
     private readonly InputAction m_Player_Shoot;
+    private readonly InputAction m_Player_GunPointer;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -781,6 +803,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Walking => m_Wrapper.m_Player_Walking;
         public InputAction @Jumping => m_Wrapper.m_Player_Jumping;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+        public InputAction @GunPointer => m_Wrapper.m_Player_GunPointer;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -799,6 +822,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @GunPointer.started += instance.OnGunPointer;
+            @GunPointer.performed += instance.OnGunPointer;
+            @GunPointer.canceled += instance.OnGunPointer;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -812,6 +838,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @GunPointer.started -= instance.OnGunPointer;
+            @GunPointer.performed -= instance.OnGunPointer;
+            @GunPointer.canceled -= instance.OnGunPointer;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -997,6 +1026,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnWalking(InputAction.CallbackContext context);
         void OnJumping(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnGunPointer(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

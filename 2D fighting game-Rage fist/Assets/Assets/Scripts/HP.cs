@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.Rendering.DebugUI;
 
 /*
  * This script is for the HP bar and handling HP dealing, and other stuff with Health Points.
@@ -16,41 +19,50 @@ using UnityEngine.UI;
 public class HP : MonoBehaviour
 {
     #region Player Health
-    [Header("Player Health")]
-    public Gradient healthGradient;
-    [SerializeField] TextMeshProUGUI healthText;
-    [SerializeField] GameObject healthBar;
-    [SerializeField] Image healthBarFill;
+    // Health variables
+    public bool isPlayer;// If the gameObject is the player, set to true, else set to false
 
-    public float currentHp; // Reference variable, current HP sets to max hp at the beginning of the game
-    public float maxHp;
+    public class HiddenFields
+    {
+        public Gradient healthGradient;
+        public TextMeshProUGUI healthText;
+        public GameObject healthBar;
+        public Image healthBarFill;
 
-    public float shieldDmgReducer; // This will later be turned into a percentage (percent of reduced received damage.)
+        public int currentHp; // Reference variable, current HP sets to max hp at the beginning of the game
+        public int maxHp;
+        public int damageTaken; // The damage you take, resets to 0 every frame, current DMG - damage taken.
+        public int damageDealt; // the damage you deal. Can be changed through code, or other scripts
+    }
 
-    public float damageTaken; // The damage you take, resets to 0 every frame, current DMG - damage taken.
-    public float damageDealt; // the damage you deal. Can be changed through code, or other scripts
+    [HideInInspector]
+    public HiddenFields hiddenFields;
+
+    public int currentHp; 
+
+    //public float shieldDmgReducer; // This will later be turned into a percentage (percent of reduced received damage.)
     #endregion
 
     // Health system
     #region Player health points system
     private void Start()
     {
-        currentHp = maxHp;
+        currentHp = hiddenFields.maxHp;
     }
 
     private void Update()
     {
-        if (gameObject.tag != "DamagePlayer")
+        if (!gameObject.CompareTag("DamagePlayer"))
         {
-            healthBarFill.color = healthGradient.Evaluate(healthBar.GetComponent<Slider>().normalizedValue);
+            hiddenFields.healthBarFill.color = hiddenFields.healthGradient.Evaluate(hiddenFields.healthBar.GetComponent<Slider>().normalizedValue);
 
-            currentHp -= damageTaken;
-            damageTaken = 0;
+            currentHp -= hiddenFields.damageTaken;
+            hiddenFields.damageTaken = 0;
 
-            healthText.text = Mathf.RoundToInt(currentHp / maxHp * 100) + "%";
-            healthBar.GetComponent<Slider>().value = currentHp / maxHp;
+            hiddenFields.healthText.text = Mathf.RoundToInt(currentHp / hiddenFields.maxHp * 100f) + "%";
+            hiddenFields.healthBar.GetComponent<Slider>().value = currentHp / hiddenFields.maxHp;
 
-            if (currentHp != 0)
+            /*if (currentHp != 0)
             {
                 if (currentHp <= 0)
                 {
@@ -68,18 +80,39 @@ public class HP : MonoBehaviour
                     damageTaken = damageTaken * 100 / (100 - shieldDmgReducer);
                     Debug.Log(damageTaken);
                 }
-            }
+            }*/
         }
     }
 
     // Detects if the player has been hit or not
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "DamagePlayer")
+        if (isPlayer)
         {
-            damageTaken = collision.gameObject.GetComponent<HP>().damageDealt;
+            hiddenFields.maxHp = collision.gameObject.GetComponent<HP>().hiddenFields.damageDealt;
         }
     }
-    #endregion
+#endregion
 
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(HP))]
+public class HpCustomInspector : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector(); // for other non-HideInInspector fields
+
+        HP script = (HP)target;
+
+        // draw checkbox for the bool
+        script.isPlayer = EditorGUILayout.Toggle("Is Player", script.isPlayer);
+        if (script.isPlayer) // if bool is true, show other fields
+        {
+           // script.iField = EditorGUILayout.ObjectField("I Field", script.iField, typeof(InputField), true) as InputField;
+          //  script.Template = EditorGUILayout.ObjectField("Template", script.Template, typeof(GameObject), true) as GameObject;
+        }
+    }
+}
+#endif

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private PlayerControls playerControls; // This is automatically adding inputs, no need to subscribe and unsubscribe
 
     [Header("Walking")]
+    public GameObject playerModel;
     public Rigidbody2D playerRigidbody;
     private Vector2 playerVelocity;
 
@@ -142,42 +144,31 @@ public class PlayerController : MonoBehaviour
 
         // Movement
         // Flipping the player
-        if (moveDirection.x == 1f)
-        {
-            playerVelocity.x += startFriction;
-            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        }
+        playerVelocity.x += startFriction * moveDirection.x;
 
-        else if (moveDirection.x == -1f)
-        {
-            playerVelocity.x -= startFriction;
-            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-        }
+        if (moveDirection.x != 0f)
+            transform.localScale = new(moveDirection.x, 1f, 1f);
 
-        // End friction for left side of player
-        if (transform.rotation.eulerAngles.y == 180f && moveDirection.x == 0f)
+        /*for (int i = 0; i < playerModel.transform.childCount; i++)
         {
-            playerVelocity.x += endFriction;
+            GameObject child = playerModel.transform.GetChild(i).gameObject;
+            child.GetComponent<SpriteRenderer>().flipX = moveDirection.x == 1f; 
+        }*/
 
-            if (playerVelocity.x >= 0f)
-            {
+        // End friction 
+        if (moveDirection.x == 0f)
+        {
+            playerVelocity.x += -endFriction * transform.localScale.x;
+
+            if (transform.localScale.x == 1f && playerVelocity.x < 0f)
                 playerVelocity.x = 0f;
-            }
-        }
 
-        // End friction for right side of player
-        if (transform.rotation.eulerAngles.y == 0f && moveDirection.x == 0f)
-        {
-            playerVelocity.x -= endFriction;
-
-            if (playerVelocity.x <= 0f)
-            {
+            else if (transform.localScale.x == -1f && playerVelocity.x > 0f)
                 playerVelocity.x = 0f;
-            }
         }
 
         // Limit the walking velocity
-        Vector2 flatVel = new Vector2(playerVelocity.x, 0f);
+        Vector2 flatVel = new(playerVelocity.x, 0f);
 
         if (flatVel.magnitude > playerSpeed)
         {
