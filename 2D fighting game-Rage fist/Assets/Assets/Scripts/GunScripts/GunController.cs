@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 /// <summary>
 /// Making multiple functions for all of the type of weapons example of weapons: bow, rocket, bullet, etc... we can add more if we wanted to...
 /// A parameter in the functions will be set to identify wether the weapon is a automatic, burst or semi auto
+/// For particles to work, make sure to keep the particles gameobject in the player when making new characters
 /// </summary>
 
 public enum FiringModes
@@ -32,12 +35,20 @@ public class GunController : MonoBehaviour
     public GameObject gun;
     public GameObject muzzle;
 
-    [Header("Gun settings")] // Some settings are found in the enums at the top of the script. Settings will be set to 0 if no gun is being held 
+    [Header("Gun settings")] // Some settings are found in the enums at the top of the script. Settings will be set to 0 if no gun is being held
+    public RaycastHit2D projectileRay;
+    public LayerMask layerToIgnore;
+
+    public Vector2 mouseDirection;
     public GameObject bulletProjectile;
     public float bulletSpread;
     private GameObject newBulletProjectile;
 
     public float bulletSpeed;
+
+    [Header("Particles")]
+    public ParticleSystem bulletGroundImpact;
+    public ParticleSystem explosionGroundImpact;
 
     #region Setting up new input system
     private void Awake()
@@ -80,11 +91,18 @@ public class GunController : MonoBehaviour
         Vector3 mousePosition = playerControls.Player.GunPointer.ReadValue<Vector2>();
         mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, gun.transform.position.z - Camera.main.transform.position.z));
 
-        Vector2 mouseDirection = (mousePosition - transform.position).normalized;
+        mouseDirection = (mousePosition - transform.position).normalized;
 
         // Rotates the gun to face the mouse
         float angle = Mathf.Atan2(mouseDirection.y, mouseDirection.x) * Mathf.Rad2Deg;
         gun.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+
+        // Make sure that all of the gameobject of gun is ignored in the raycast
+        for (int i = 0; i < gun.transform.childCount; i++)
+        {
+            gun.layer = 2;
+            gun.transform.GetChild(i).gameObject.layer = 2;
+        }
     }
 
     private void CreateProjectile(ProjectileTypes projectileType)
@@ -92,12 +110,13 @@ public class GunController : MonoBehaviour
         switch (projectileType)
         {
             case ProjectileTypes.Bullet:
-               
                 newBulletProjectile = Instantiate(
                     bulletProjectile,
                     muzzle.transform.position,
-                    Quaternion.Euler(0f, 0f, gun.transform.rotation.z + Random.Range(0f, bulletSpread))
+                    Quaternion.Euler(new Vector3(0f, 0f, gun.transform.rotation.eulerAngles.z + Random.Range(-bulletSpread, bulletSpread)))
                 );
+
+                projectileRay = Physics2D.Raycast(muzzle.transform.position, newBulletProjectile.transform.right, 1000f, ~layerToIgnore);
 
                 break;
 
@@ -135,5 +154,5 @@ public class GunController : MonoBehaviour
                 break;
         }
     }
-#endregion
+    #endregion
 }

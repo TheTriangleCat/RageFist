@@ -18,27 +18,36 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class HP : MonoBehaviour
 {
-    #region Player Health
+    #region Variables
     // Health variables
-    public bool isPlayer;// If the gameObject is the player, set to true, else set to false
+    public bool isPlayer;
+    public int damageDealt; // Amount of damage the player or object deals
 
-    public class HiddenFields
-    {
-        public Gradient healthGradient;
-        public TextMeshProUGUI healthText;
-        public GameObject healthBar;
-        public Image healthBarFill;
+    [Header("Health Settings")]
+    [SerializeField]
+    private Gradient healthGradient;
 
-        public int currentHp; // Reference variable, current HP sets to max hp at the beginning of the game
-        public int maxHp;
-        public int damageTaken; // The damage you take, resets to 0 every frame, current DMG - damage taken.
-        public int damageDealt; // the damage you deal. Can be changed through code, or other scripts
-    }
+    [SerializeField]
+    private TextMeshProUGUI healthText;
 
+    [SerializeField]
+    private GameObject healthBar;
+
+    [SerializeField]
+    private Image healthBarFill;
+
+    [Header("Player Settings")]
+    [SerializeField]
     [HideInInspector]
-    public HiddenFields hiddenFields;
+    private int currentHp; //Current hp of player
 
-    public int currentHp; 
+    [SerializeField]
+    [HideInInspector]
+    private int maxHp; //Max hp of player
+
+    [SerializeField]
+    [HideInInspector]
+    private int damageTaken; // The damage you take, resets to 0 every frame, current 
 
     //public float shieldDmgReducer; // This will later be turned into a percentage (percent of reduced received damage.)
     #endregion
@@ -47,20 +56,20 @@ public class HP : MonoBehaviour
     #region Player health points system
     private void Start()
     {
-        currentHp = hiddenFields.maxHp;
+        currentHp = maxHp;
     }
 
     private void Update()
     {
-        if (!gameObject.CompareTag("DamagePlayer"))
+        if (isPlayer )
         {
-            hiddenFields.healthBarFill.color = hiddenFields.healthGradient.Evaluate(hiddenFields.healthBar.GetComponent<Slider>().normalizedValue);
+            healthBarFill.color = healthGradient.Evaluate(healthBar.GetComponent<Slider>().normalizedValue);
 
-            currentHp -= hiddenFields.damageTaken;
-            hiddenFields.damageTaken = 0;
+            currentHp -= damageTaken;
+            damageTaken = 0;
 
-            hiddenFields.healthText.text = Mathf.RoundToInt(currentHp / hiddenFields.maxHp * 100f) + "%";
-            hiddenFields.healthBar.GetComponent<Slider>().value = currentHp / hiddenFields.maxHp;
+            healthText.text = Mathf.RoundToInt(currentHp / maxHp * 100f) + "%";
+            healthBar.GetComponent<Slider>().value = currentHp / maxHp;
 
             /*if (currentHp != 0)
             {
@@ -89,30 +98,60 @@ public class HP : MonoBehaviour
     {
         if (isPlayer)
         {
-            hiddenFields.maxHp = collision.gameObject.GetComponent<HP>().hiddenFields.damageDealt;
+            //maxHp = collision.gameObject.GetComponent<HP>().damageDealt;
         }
     }
-#endregion
+    #endregion
 
 }
 
-#if UNITY_EDITOR
-[CustomEditor(typeof(HP))]
-public class HpCustomInspector : Editor
+/*[CustomEditor(typeof(HP))]
+public class HPEditor : Editor
 {
+    SerializedProperty isPlayer;
+    SerializedProperty healthGradient;
+    SerializedProperty healthText;
+    SerializedProperty healthBar;
+    SerializedProperty healthBarFill;
+    SerializedProperty currentHp;
+    SerializedProperty maxHp;
+    SerializedProperty damageTaken;
+    SerializedProperty damageDealt;
+
+    void OnEnable()
+    {
+        isPlayer = serializedObject.FindProperty("isPlayer");
+        healthGradient = serializedObject.FindProperty("healthGradient");
+        healthText = serializedObject.FindProperty("healthText");
+        healthBar = serializedObject.FindProperty("healthBar");
+        healthBarFill = serializedObject.FindProperty("healthBarFill");
+        currentHp = serializedObject.FindProperty("currentHp");
+        maxHp = serializedObject.FindProperty("maxHp");
+        damageTaken = serializedObject.FindProperty("damageTaken");
+        damageDealt = serializedObject.FindProperty("damageDealt");
+    }
+
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector(); // for other non-HideInInspector fields
+        serializedObject.Update();
 
-        HP script = (HP)target;
+        EditorGUILayout.PropertyField(isPlayer);
+        EditorGUILayout.PropertyField(damageDealt);
 
-        // draw checkbox for the bool
-        script.isPlayer = EditorGUILayout.Toggle("Is Player", script.isPlayer);
-        if (script.isPlayer) // if bool is true, show other fields
+        if (isPlayer.boolValue)
         {
-           // script.iField = EditorGUILayout.ObjectField("I Field", script.iField, typeof(InputField), true) as InputField;
-          //  script.Template = EditorGUILayout.ObjectField("Template", script.Template, typeof(GameObject), true) as GameObject;
+            EditorGUILayout.PropertyField(healthGradient);
+            EditorGUILayout.PropertyField(healthText);
+            EditorGUILayout.PropertyField(healthBar);
+            EditorGUILayout.PropertyField(healthBarFill);
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.PropertyField(currentHp);
+            EditorGUILayout.PropertyField(maxHp);
+            EditorGUILayout.PropertyField(damageTaken);
         }
+
+        serializedObject.ApplyModifiedProperties();
     }
-}
-#endif
+}*/

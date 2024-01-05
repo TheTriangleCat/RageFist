@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
     #region Jumping
     [Header("Jumping")]
 
-    public LayerMask groundLayer;
+    private GameObject groundTag;
     public Transform groundCheck;
 
     public Vector2 boxSize; // We make a box and then the box checks if its touching the floor
@@ -87,6 +87,8 @@ public class PlayerController : MonoBehaviour
     #region Implementing the new input system, we have to do the walking manually by subscribing to it. The jumping is done automatically without subscribing.
     private void Awake()
     {
+        groundTag = GameObject.Find("Ground"); // This is to find the ground tag, we use it to check if the player is on the ground
+
         playerControls = new PlayerControls();
 
         playerControls.Player.Walking.performed += context => moveDirection = context.ReadValue<Vector2>();
@@ -233,7 +235,7 @@ public class PlayerController : MonoBehaviour
     // Coroutine for ground checking
     private IEnumerator CheckGround()
     {
-        onGround = Physics2D.OverlapBox(groundCheck.position, boxSize, 0f, groundLayer) && playerRigidbody.velocity.y == 0;
+        onGround = Physics2D.OverlapBox(groundCheck.position, boxSize, 0f) && playerRigidbody.velocity.y == 0f;
 
         // Ground detection
         if (onGround)
