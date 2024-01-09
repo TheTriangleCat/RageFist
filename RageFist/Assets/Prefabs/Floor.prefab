@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 5348651473244453236}
   - component: {fileID: 6870160870940423530}
   - component: {fileID: 5546034360970445399}
+  - component: {fileID: 4736276065693804252}
   m_Layer: 0
-  m_Name: Square
-  m_TagString: Ground
+  m_Name: Floor
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,3 +151,15 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &4736276065693804252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7438213645639148060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dcd955a163a99a40a72ccc6c94a30b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

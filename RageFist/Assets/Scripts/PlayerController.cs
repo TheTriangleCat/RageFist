@@ -14,18 +14,6 @@ using UnityEngine.UI;
 ///  Documentation on the input system: https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Interactions.html
 ///  Useful tutorials: https://www.youtube.com/watch?v=ZSP3bFaZm-o
 
-///  Unity's new input system has multiple control type.
-///  There is the vector2, wich will return a vector2 value depending on what keys you press.
-///  Ex.: if I press the A key, it will return -1 on the x axis.
-///  The other control type we will use is the buttons. These doesn't return anything. We only detect if its pressed.
-///  With the button control type, we can detect if its beeing held or tapped. We get more flexibility.
-
-/// In this case, we are going to use the button control type and we are setting it manualy to give us more flexibility and control over the controls.
-/// It is useful since we are going to have multiple controls for multiple players so we can check wether its player1 or player2 that does the controls.
-
-/// For best results in double jump, respect the ratio of 0.05 JumpCooldown:1 JumpPower
-/// </summary>
-
 public class PlayerController : MonoBehaviour
 {
     #region Variables
@@ -76,10 +64,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject particleSystemJump;
     #endregion
 
+    //Draw the circle preview for onGround  
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(groundCheck.position, boxSize);
+    }
+
     private void Awake()
     {
-        groundTag = GameObject.Find("Ground"); // This is to find the ground tag, we use it to check if the player is on the ground
-
         playerControls = new PlayerControls();
 
         playerControls.Player.Jumping.performed += JumpInput;
@@ -123,17 +116,11 @@ public class PlayerController : MonoBehaviour
         // Movement and flipping player
         int defaultLocalScale = 1;
 
-        playerRigidbody.velocity = playerVelocity; // This is to apply the velocity to the rigidbody, we only set the variable of the velocity, not the actual velocity
+        playerRigidbody.velocity = new Vector2(playerVelocity.x, playerRigidbody.velocity.y); // This is to apply the velocity to the rigidbody, we only set the variable of the velocity, not the actual velocity
         playerVelocity.x += startFriction * moveDirection.x;
 
         if (moveDirection.x != 0f)
             transform.localScale = new(moveDirection.x, defaultLocalScale, defaultLocalScale);
-
-        /*for (int i = 0; i < playerModel.transform.childCount; i++)
-        {
-            GameObject child = playerModel.transform.GetChild(i).gameObject;
-            child.GetComponent<SpriteRenderer>().flipX = moveDirection.x == 1f; 
-        }*/
 
         // End friction 
         if (moveDirection.x == 0f)
@@ -200,15 +187,7 @@ public class PlayerController : MonoBehaviour
         jumpKeyTapped = true;
     }
     #endregion
-
     #endregion
-
-    //Draw the circle preview for onGround  
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(groundCheck.position, boxSize);
-    }
 
     private IEnumerator CheckGround() // This is a coroutine so it runs at the same time as the fixed update
     {

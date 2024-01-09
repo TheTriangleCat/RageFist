@@ -133,7 +133,7 @@ public class GunController : MonoBehaviour
         }
     }
 
-    [SerializeField] private void ShootGun(FiringModes firingMode)
+    private void ShootGun(FiringModes firingMode)
     {
         switch (firingMode)
         {

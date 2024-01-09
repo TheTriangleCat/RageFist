@@ -19,11 +19,11 @@ public class BulletController : MonoBehaviour
     {
         gunController = FindObjectOfType<GunController>();
 
-        //bulletGroundImpact = gunController.GetComponent<GunController>().bulletGroundImpact;
+        bulletGroundImpact = gunController.GetComponent<GunController>().bulletGroundImpact;
         projectileRay = gunController.GetComponent<GunController>().projectileRay;
         explosionGroundImpact = gunController.GetComponent<GunController>().explosionGroundImpact;
 
-        //bulletGroundImpact.Stop();
+        bulletGroundImpact.Pause(); //make this STOPPPPP PLSSSS SOAP SOAPY MAN
     }
 
     private void Update()
@@ -33,18 +33,23 @@ public class BulletController : MonoBehaviour
         bulletSpeed = gunController.GetComponent<GunController>().bulletSpeed;
         gun = gunController.GetComponent<GunController>().gun;
 
-        if (CompareTag("Bullet") && gameObject.GetComponent<SpriteRenderer>().enabled)
+        if (TryGetComponent<Bullet>(out Bullet bullet) && gameObject.transform.Find("Sprite").transform.GetComponent<SpriteRenderer>().enabled)
             transform.Translate(bulletSpeed * Time.deltaTime * Vector2.right);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ground"))
+        if (collision.TryGetComponent<Floor>(out Floor floor))
         {
-            gameObject.GetComponent<SpriteRenderer>().enabled = false; // Disabling the sprite renderer so the particles can be seen
-           // bulletGroundImpact.Play();
+            gameObject.transform.Find("Sprite").transform.GetComponent<SpriteRenderer>().enabled = false; // Disabling the sprite renderer so the particles can be seen
+            bulletGroundImpact.Play();
 
-            Destroy(gameObject);//bulletGroundImpact.main.duration
+            Invoke(nameof(DestroyBullet), bulletGroundImpact.main.duration);
         }
+    }
+
+    private void DestroyBullet()
+    {
+        Destroy(gameObject);
     }
 }
