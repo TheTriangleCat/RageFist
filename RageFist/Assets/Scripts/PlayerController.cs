@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        if (context.performed && !onGround && jumpKeyTapped && canDoubleJump) // small bug where the player can dbj if it hits a platform while in the air pls fixxx
+        else if (context.performed && !onGround && jumpKeyTapped && canDoubleJump) 
         {
             jumpKeyTapped = false;
             Jump();
